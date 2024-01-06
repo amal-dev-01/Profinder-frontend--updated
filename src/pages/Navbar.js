@@ -16,12 +16,15 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const pages = ['Home', 'Services', 'Chat'];
-const settings = ['Profile', 'Account', 'Dashboard'];
+
 
 function Navbar() {
 
     const {userInfo ,logout}=useSelector((state) => state.user)
     const navigate= useNavigate()
+    const settings = [<Typography onClick={()=>navigate('/userprofile')}>Profile</Typography>,
+<Typography onClick={()=>navigate('/postlist')}>post</Typography>
+];
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -155,7 +158,7 @@ function Navbar() {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}>
-                <Button onClick={()=>navigate('/userprofile')}>Profile</Button>
+
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>

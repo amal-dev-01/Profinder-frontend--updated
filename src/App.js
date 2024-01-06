@@ -13,6 +13,7 @@ import EditPost from './pages/EditPost';
 import AddPost from './pages/CreatePost';
 import CreatePost from './pages/CreatePost';
 import PostList from './pages/PostList';
+import Like from './pages/Like';
 
 function App() {
   return (
@@ -30,6 +31,9 @@ function App() {
         <Route path='/editpost/:id' element={<EditPost/>}/>
         <Route path='/addpost' element={<CreatePost/>}/>
         <Route path='/postlist' element={<PostList/>}/>
+        <Route path='/like' element={<Like/>}/>
+
+
 
 
         </Routes>
