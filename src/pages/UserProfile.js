@@ -43,17 +43,18 @@ const UserProfile = () => {
       postList()
     }
   }, [authToken, dispatch]);
-// console.log(posts);
+// console.log(userProfileData.userprofile.image);
 
   return (
-<div className="parentcard">
+<div className="parentcard">  
   <div className="outercard">
+    
     <img src='https://images.unsplash.com/photo-1683009427513-28e163402d16?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' alt="Background" />
   </div>
   <div className='innercard'>
     {userProfileData?.userprofile && (
       <div className='profileimg'>
-        <img src={`http://127.0.0.1:8000/${userProfileData.userprofile.image}`} alt="Profile Image" />
+        <img src={`http://127.0.0.1:8000${userProfileData.userprofile.image}`} alt="Profile Image" />
         <div className='name'>{userProfileData.username}</div>
         <div className='name'>{userProfileData.first_name} {userProfileData.last_name}</div>
         <div>{userProfileData.userprofile.bio}</div>
@@ -67,7 +68,7 @@ const UserProfile = () => {
     <div className="post-grid">
       {posts.map((post) => (
         <div key={post.id} className="post-item">
-          <img src={`${baseURL}/${post.post}`} alt="Post Image" onClick={() => navigate(`/postview/${post.id}`)} />
+          <img src={`${baseURL}${post.post}`} alt="Post Image" onClick={() => navigate(`/postview/${post.id}`)} />
         </div>
       ))}
     </div>

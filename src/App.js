@@ -14,6 +14,12 @@ import AddPost from './pages/CreatePost';
 import CreatePost from './pages/CreatePost';
 import PostList from './pages/PostList';
 import Like from './pages/Like';
+import ChatArea from './pages/ChatArea';
+import Chat from './pages/Chat';
+import CheckOut from './pages/CheckOut';
+import PaymentSucess from './pages/PaymentSucess';
+import ProfileView from './pages/Profile/ProfileView';
+import Sidebar from './pages/Sidebar';
 
 function App() {
   return (
@@ -32,6 +38,18 @@ function App() {
         <Route path='/addpost' element={<CreatePost/>}/>
         <Route path='/postlist' element={<PostList/>}/>
         <Route path='/like' element={<Like/>}/>
+        <Route path='/chat' element={<ChatArea/>}/>
+        <Route path='/checkout' element={<CheckOut/>}/>
+        <Route path='/success' element={<PaymentSucess/>}/>
+
+
+        {/* <Route path="start" element={<Conversations />} /> */}
+
+        <Route path='/chating/:roomName' element={<Chat/>}/>
+        <Route path='/profile' element={<ProfileView/>}/>
+
+
+
 
 
 

@@ -12,19 +12,38 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { logout } from '../features/authAction';
 
-const pages = ['Home', 'Services', 'Chat'];
 
 
 function Navbar() {
 
-    const {userInfo ,logout}=useSelector((state) => state.user)
-    const navigate= useNavigate()
-    const settings = [<Typography onClick={()=>navigate('/userprofile')}>Profile</Typography>,
-<Typography onClick={()=>navigate('/postlist')}>post</Typography>
-];
+  const dispatch = useDispatch()
+
+  const { userInfo } = useSelector((state) => state.user)
+  const handleLogout = async () => {
+    try {
+      dispatch(logout());
+      navigate('/');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+  const navigate = useNavigate()
+  const settings = [<Typography onClick={() => navigate('/userprofile')}>Profile</Typography>,
+  <Typography onClick={handleLogout}>LogOut</Typography>
+  ];
+
+  const pages = [
+    <Typography onClick={() => navigate('/home')} sx={{ textTransform: 'none' }}>Home</Typography>,
+    <Typography onClick={() => navigate('/chat')} sx={{ textTransform: 'none' }}>Chat</Typography>,
+    <Typography onClick={() => navigate('/chat')} sx={{ textTransform: 'none' }}>Services</Typography>,
+    <Typography onClick={() => navigate('/postlist')} sx={{ textTransform: 'none' }}>Post</Typography>,
+
+  ];
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -44,7 +63,7 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="static" sx={{backgroundColor:'white',color:'black', boxShadow: 'none'}}>
+    <AppBar position="static" sx={{ backgroundColor: 'white', color: 'black', boxShadow: 'none' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -65,8 +84,8 @@ function Navbar() {
           >
             LOGO
             {userInfo && userInfo.username && (
-          <span>{userInfo.username}</span>
-        )}
+              <span>{userInfo.username}</span>
+            )}
 
           </Typography>
 
@@ -125,7 +144,7 @@ function Navbar() {
           >
             LOGO
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'flex-end' }}>
             {pages.map((page) => (
               <Button
                 key={page}
@@ -136,6 +155,7 @@ function Navbar() {
               </Button>
             ))}
           </Box>
+
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">

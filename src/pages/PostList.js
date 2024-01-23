@@ -19,7 +19,7 @@ import { red } from '@mui/material/colors';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import AppSidebar from './Sidebar';
+import Sidebar from './Sidebar';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -111,53 +111,60 @@ const PostList = () => {
 
   return (
     <div>
-      <AppSidebar/>
+
+<Sidebar/>
 
       <h2>Post List</h2>
       {loading && <p>Loading posts...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {!loading && !error && (
         
-        <div style={{display:"flex",justifyContent:"center"}}>
-          <Card style={{width:"50%"}}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <Card style={{ width: '100%', maxWidth: '600px' }}>
           {posts.map((post) => (
             <div key={post.id}>
-       <CardHeader
-  avatar={
-    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-      {post.username}
-    </Avatar>
-  }
-  action={
-    <IconButton aria-label="settings">
-      <MoreVertIcon />
-    </IconButton>
-  }
-  title={post.title}
-  subheader={post.created_at}
-/>
-<CardMedia
-  component="img"
-  style={{ width: "100%" }}
-  image={`${baseURL}/${post.post}`}
-  alt="post"
-/>
-              <div >
-                {/* <img src={`${baseURL}/${post.post}`} alt="Post" style={{ width: "100%" }} /> */}
-              <div style={{display:"flex",justifyContent:"left",paddingLeft:"2%"}}> 
-                {isUserLiked(post) ?<FavoriteIcon
-                  onClick={() => likePost(post.id)}
-                  sx={{ fontSize: 40, color:'red', cursor: 'pointer' }}
-                />:
-                <FavoriteBorder onClick={() => likePost(post.id)} sx={{ fontSize: 40 ,cursor: 'pointer' }}style={{paddingRight:"2%"}} />}
-                <CommentOutlinedIcon sx={{ fontSize: 40 ,cursor: 'pointer' }} />
-              </div>
+              <CardHeader
+                avatar={
+                  <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                    {post.username}
+                  </Avatar>
+                }
+                action={
+                  <IconButton aria-label="settings">
+                    <MoreVertIcon />
+                  </IconButton>
+                }
+                title={post.title}
+                subheader={post.created_at}
+              />
+              <CardMedia
+                component="img"
+                style={{ width: '100%' }}
+                image={`${baseURL}${post.post}`}
+                alt="post"
+              />
+              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '2%' }}>
+                <div>
+                  {isUserLiked(post) ? (
+                    <FavoriteIcon
+                      onClick={() => likePost(post.id)}
+                      sx={{ fontSize: { xs: 30, sm: 40 }, color: 'red', cursor: 'pointer' }}
+                    />
+                  ) : (
+                    <FavoriteBorder
+                      onClick={() => likePost(post.id)}
+                      sx={{ fontSize: { xs: 30, sm: 40 }, cursor: 'pointer' }}
+                    />
+                  )}
+                </div>
+                <div>
+                  <CommentOutlinedIcon sx={{ fontSize: { xs: 30, sm: 40 }, cursor: 'pointer' }} />
+                </div>
               </div>
             </div>
           ))}
-          </Card>
-        </div>
-//         <div style={{display:"flex",justifyContent:"center"}}>
+        </Card>
+      </div>//         <div style={{display:"flex",justifyContent:"center"}}>
 //         <div>
 //         {posts.map((post) => (
 // <Card sx={{ maxWidth: 345 }}>

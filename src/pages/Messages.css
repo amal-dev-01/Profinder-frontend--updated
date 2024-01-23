@@ -1,0 +1,30 @@
+.message{
+    margin-bottom: 15px;
+}
+.send{
+    display: flex;
+    justify-content: flex-end;
+}
+.recieved{
+    display: flex;
+    justify-content: flex-start;
+}
+.message-bubble {
+    max-width: 20%;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  
+  .sent .message-bubble {
+    margin-left: 20%;
+    background-color: rgb(68, 68, 68);
+    color: white;
+    border-bottom-left-radius: 0;
+  }
+  
+  .recieved .message-bubble {
+    background-color: rgb(160, 160, 160);
+    color: rgb(255, 255, 255);
+    border-bottom-left-radius: 0;
+  }
+  

@@ -119,7 +119,7 @@ const PostView = () => {
 
       <Grid item xs={12} sm={7}>
         <div>
-          <img src={`${baseURL}/${userPostData.post}`} alt="Post" style={{ maxWidth: '100%' }} />
+          <img src={`${baseURL}${userPostData.post}`} alt="Post" style={{ maxWidth: '100%' }} />
 
           <div style={{display:"flex" ,justifyContent:"left" ,padding:"10px"}}>
 

@@ -1,0 +1,16 @@
+.chat-area{
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    background-color: rgb(3, 31, 31);
+    color: aliceblue;
+    padding: 15px;
+    text-align: center;
+}
+.messages1{
+    padding: 20px;
+    overflow-y: auto;
+}
