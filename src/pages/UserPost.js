@@ -1,122 +1,61 @@
-// import React, { useEffect, useState } from 'react'
-// import { useSelector } from 'react-redux';
-// import axiosInstance from '../features/axios';
-// import { baseURL } from '../features/baseUrl';
-
-// const UserPost = () => {
-//     const authToken = localStorage.getItem('authtoken');
-//     const [posts,setPosts]= useState([])
-
-//     const fetchPost = async () => {
-//         try {
-//             const response = await axiosInstance.get('post/post/', {
-//                 headers: {
-//                       'Authorization': `Bearer ${authToken}`,
-//                       'Content-Type': 'multipart/form-data',
-//                 },
-//             });
-//             if (response.status == 200) {
-        
-//                 setPosts(response.data)
-//             }
-
-//         } catch (error) {
-//             console.error('Error updating profile:', error);
-//         }
-//     };
-//     useEffect(()=>{
-//         if(authToken){
-//             fetchPost()
-//         }
-
-//     },[authToken]
-
-//     )
-//     console.log(posts);
-
-
-//     return (
-//         <div>
-//         <h1>Post</h1>
-        // {posts.map((post) => (
-        //     <div key={post.id}>
-        //         <div>{post.title}</div>
-        //         <div>{post.comments[0].text}</div>
-        //         <div>{post.total_likes}</div>
-        //         <div>{post.created_at}</div>
-                
-        //             <div style={{width :"200px",height:"500px"}}>
-        //             <img src={`${baseURL}/${post.post}`} alt="Post Image" />
-        //             </div>
-
-
-        //         </div>
-        // ))}
-//     </div>
-
-//     )
-// }
-
-// export default UserPost
 import React from 'react';
-import { Container, Grid, Card, CardHeader, CardContent, CardActions, Button, Typography, Avatar, Badge } from '@mui/material';
-import { styled } from '@mui/system';
+import { Container, Card, CardContent, CardMedia, Grid, Typography, Divider } from '@mui/material';
+import { Avatar, Facebook, Twitter, Instagram, Edit } from '@mui/icons-material';
 
-const GradientContainer = styled(Container)({
-  background: 'linear-gradient(to right, #9de2ff, #ffffff)',
-  padding: '5rem 0',
-});
-
-const ProfileCard = () => {
+const UserPost = () => {
   return (
-    <GradientContainer>
-      <Container>
-        <Grid container justifyContent="center" alignItems="center" style={{ height: '100vh' }}>
-          <Grid item lg={9} xl={7}>
-            <Card>
-              <CardHeader
-                avatar={
-                  <Avatar src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp" alt="Profile Image" />
-                }
-                title="Andy Horwitz"
-                subheader="New York"
-              />
-              <CardContent>
-                <div style={{ background: '#f8f9fa', padding: '1rem' }}>
-                  <Typography variant="body1" className="font-italic mb-1">Web Developer</Typography>
-                  <Typography variant="body1" className="font-italic mb-1">Lives in New York</Typography>
-                  <Typography variant="body1" className="font-italic mb-0">Photographer</Typography>
-                </div>
-              </CardContent>
-              <CardContent className="text-black p-4">
-                <div className="mb-5">
-                  <Typography variant="h6" className="fw-normal mb-1">About</Typography>
-                  <div style={{ background: '#f8f9fa', padding: '1rem' }}>
-                    <Typography variant="body1" className="font-italic mb-1">Web Developer</Typography>
-                    <Typography variant="body1" className="font-italic mb-1">Lives in New York</Typography>
-                    <Typography variant="body1" className="font-italic mb-0">Photographer</Typography>
-                  </div>
-                </div>
-                <div className="d-flex justify-content-between align-items-center mb-4">
-                  <Typography variant="h6" className="fw-normal mb-0">Recent photos</Typography>
-                  <Typography variant="body1" className="mb-0"><a href="#!" className="text-muted">Show all</a></Typography>
-                </div>
-                <Grid container spacing={2}>
-                  <Grid item xs={6} md={3}>
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(112).webp" alt="image 1" className="w-100 rounded-3" />
-                  </Grid>
-                  <Grid item xs={6} md={3}>
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp" alt="image 2" className="w-100 rounded-3" />
-                  </Grid>
-                  {/* Add more recent photos as needed */}
+    <section className="vh-100" style={{ backgroundColor: '#f4f5f7' }}>
+      <Container className="py-5 h-100">
+        <Grid container justifyContent="center" alignItems="center" className="h-100">
+          <Grid item lg={6} mb={4} mb-lg={0}>
+            <Card style={{ borderRadius: '.5rem' }}>
+              <Grid container>
+                <Grid item md={4} className="gradient-custom text-center text-white" style={{ borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem' }}>
+                  <CardMedia component="img" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="Avatar" className="img-fluid my-5" style={{ width: 80 }} />
+                  <Typography variant="h5">Marie Horwitz</Typography>
+                  <Typography variant="subtitle1">Web Designer</Typography>
+                  <Edit className="mb-5" />
                 </Grid>
-              </CardContent>
+                <Grid item md={8}>
+                  <CardContent>
+                    <Typography variant="h6">Information</Typography>
+                    <Divider variant="middle" className="mt-0 mb-4" />
+                    <Grid container paddingTop={1}>
+                      <Grid item xs={6} mb={3}>
+                        <Typography variant="h6">Email</Typography>
+                        <Typography variant="body2" color="textSecondary">info@example.com</Typography>
+                      </Grid>
+                      <Grid item xs={6} mb={3}>
+                        <Typography variant="h6">Phone</Typography>
+                        <Typography variant="body2" color="textSecondary">123 456 789</Typography>
+                      </Grid>
+                    </Grid>
+                    <Typography variant="h6">Projects</Typography>
+                    <Divider variant="middle" className="mt-0 mb-4" />
+                    <Grid container paddingTop={1}>
+                      <Grid item xs={6} mb={3}>
+                        <Typography variant="h6">Recent</Typography>
+                        <Typography variant="body2" color="textSecondary">Lorem ipsum</Typography>
+                      </Grid>
+                      <Grid item xs={6} mb={3}>
+                        <Typography variant="h6">Most Viewed</Typography>
+                        <Typography variant="body2" color="textSecondary">Dolor sit amet</Typography>
+                      </Grid>
+                    </Grid>
+                    <div style={{ display: 'flex', justifyContent: 'start' }}>
+                      <a href="#!"><Facebook fontSize="large" className="me-3" /></a>
+                      <a href="#!"><Twitter fontSize="large" className="me-3" /></a>
+                      <a href="#!"><Instagram fontSize="large" /></a>
+                    </div>
+                  </CardContent>
+                </Grid>
+              </Grid>
             </Card>
           </Grid>
         </Grid>
       </Container>
-    </GradientContainer>
+    </section>
   );
 }
 
-export default ProfileCard;
+export default UserPost;

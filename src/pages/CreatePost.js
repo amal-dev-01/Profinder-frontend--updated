@@ -8,7 +8,7 @@ const CreatePost = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    post: null, // Use null for file input
+    post: null, 
   });
 
   const handleChange = (e) => {
@@ -65,7 +65,7 @@ const CreatePost = () => {
               variant="outlined"
               name="title"
               value={formData.title}
-              style={{ width: '90%', padding: '10px', borderRadius: '5px' }}
+              style={{ width: '84%', padding: '10px', borderRadius: '5px' }}
 
               onChange={handleChange}
             />
@@ -80,11 +80,12 @@ const CreatePost = () => {
               style={{ width: '80%', padding: '10px', borderRadius: '5px' }}
             />
           </Grid>
+
           <Grid item xs={12}>
             <input type="file" name="post" onChange={handleChange} />
           </Grid>
           <Grid item xs={12}>
-            <Button type="submit" variant="contained" color="primary" fullWidth>
+            <Button type="submit" variant="contained" color="primary" sx={{width:'80%'}}>
               Create Post
             </Button>
           </Grid>

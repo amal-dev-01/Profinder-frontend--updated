@@ -3,9 +3,7 @@ import axiosInstance from '../features/axios';
 import { baseURL } from '../features/baseUrl';
 import { jwtDecode } from 'jwt-decode';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
-import { FavoriteBorder } from '@mui/icons-material';
-import { styled } from '@mui/material/styles';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -15,45 +13,51 @@ import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
 import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Sidebar from './Sidebar';
-
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
+import CommentIcon from '@mui/icons-material/Comment';
+import ReadMoreIcon from '@mui/icons-material/ReadMore';
+import Tooltip from '@mui/material/Tooltip';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { red } from '@mui/material/colors';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 const PostList = () => {
-  
-
-  const [expanded, setExpanded] = React.useState(false);
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-  
-
+  const [expandedState, setExpandedState] = useState({});
+  const [showFullDescription, setShowFullDescription] = useState({});
   const authToken = localStorage.getItem('authtoken');
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [liked, setLiked] = useState(false)
+  const [liked, setLiked] = useState(false);
+  const [commented, setCommented] = useState([]);
+  const [commentText, setCommentText] = useState('');
+  const [deleted, setDeleted] = useState("");
+
+
   const user = authToken ? jwtDecode(authToken) : null;
 
+  const handleExpandClick = (postId) => {
+    setExpandedState((prevExpandedState) => ({
+      ...prevExpandedState,
+      [postId]: !prevExpandedState[postId],
+    }));
+  };
+
+  const handleReadMoreClick = (postId) => {
+    setShowFullDescription((prevShowFullDescription) => ({
+      ...prevShowFullDescription,
+      [postId]: true,
+    }));
+  };
 
   const listPosts = async () => {
     try {
       const response = await axiosInstance.get('post/allpost/', {
         headers: {
-          'Authorization': `Bearer ${authToken}`,
+          Authorization: `Bearer ${authToken}`,
           'Content-Type': 'application/json',
         },
       });
@@ -71,16 +75,13 @@ const PostList = () => {
     if (authToken) {
       listPosts();
     }
-  }, [authToken, liked]);
+  }, [authToken, liked, commented,deleted]);
 
   const isUserLiked = (post) => {
     return post.likes.some((like) => like.user.username === user.username);
   };
-  // const isUserLiked = (post) => {
-  //   return (post.likes || []).some((like) => like.user.username === user.username);
-  // };
 
-  const likePost = async (postId) => {
+  const postLike = async (postId) => {
     try {
       const response = await axiosInstance.post(
         `post/post/${postId}/like/`,
@@ -94,12 +95,7 @@ const PostList = () => {
       );
 
       if (response.status === 201 || response.status === 200) {
-        setLiked(!liked)
-        // setPosts((prevPosts) =>
-        //   prevPosts.map((prevPost) =>
-        //     prevPost.id === postId ? { ...prevPost, likes: response.data.likes } : prevPost
-        //   )
-        // );
+        setLiked(!liked);
       }
       console.log(response);
     } catch (error) {
@@ -107,128 +103,189 @@ const PostList = () => {
     }
   };
 
- console.log(posts);
+  const handleCommentChange = (e) => {
+    setCommentText(e.target.value);
+  };
+
+  const postComment = async (postId) => {
+    try {
+      const response = await axiosInstance.post(
+        `post/post/${postId}/comment/`,
+        { text: commentText },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (response.status === 201 || response.status === 200) {
+        setCommented((prevCommented) => [...prevCommented, response.data]);
+        setCommentText('');
+      }
+      console.log(response);
+    } catch (error) {
+      console.error('Error posting comment:', error);
+    }
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    try {
+      const response = await axiosInstance.delete(
+        `post/comment/${commentId}/delete/`,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+  
+      if (response.status === 204) {
+        setDeleted(" ")
+
+        console.log('Comment deleted successfully');
+      }
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+    }
+  };
+  
+
+
+
+  const renderDeleteButton = (comment) => {
+    if (user && comment.user.username === user.username) {
+      return (
+        <IconButton
+          aria-label="delete"
+          onClick={() => handleDeleteComment(comment.id)}
+        >
+          <DeleteOutlineIcon />
+        </IconButton>
+      );
+    }
+    return null;
+  };
 
   return (
     <div>
-
-<Sidebar/>
-
-      <h2>Post List</h2>
+      <h2>Explore</h2>
       {loading && <p>Loading posts...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {!loading && !error && (
-        
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Card style={{ width: '100%', maxWidth: '600px' }}>
-          {posts.map((post) => (
-            <div key={post.id}>
-              <CardHeader
-                avatar={
-                  <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                    {post.username}
-                  </Avatar>
-                }
-                action={
-                  <IconButton aria-label="settings">
-                    <MoreVertIcon />
+          <Card sx={{ maxWidth: 400 }}>
+            {posts.map((post) => (
+              <div key={post.id}>
+                <CardHeader
+                  avatar={
+                    <Avatar sx={{ bgcolor: red[500] }} aria-label="user">
+                      {post.user}
+                    </Avatar>
+                  }
+                  action={
+                    <IconButton aria-label="settings">
+                      <MoreVertIcon />
+                    </IconButton>
+                  }
+                  title={post.title}
+                  subheader={post.created_at}
+                />
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={`${baseURL}${post.post}`}
+                  alt="No post"
+                />
+                <CardContent>
+                  <Typography variant="body2" color="text.secondary">
+                    {showFullDescription[post.id]
+                      ? post.description
+                      : `${post.description.slice(0, 50)}...`}
+                    {!showFullDescription[post.id] && (
+                      <Tooltip title="Read More">
+                        <IconButton
+                          aria-label="read more"
+                          onClick={() => handleReadMoreClick(post.id)}
+                        >
+                          <ReadMoreIcon />
+                        </IconButton>
+                      </Tooltip>
+                    )}
+                  </Typography>
+                </CardContent>
+                <CardActions disableSpacing>
+                  {/* <IconButton aria-label="add to favorites"> */}
+                    {isUserLiked(post) ? (
+                      <IconButton  onClick={() => postLike(post.id)}
+                      sx={{ fontSize: { sm: 27 }, color: 'red', cursor: 'pointer' }}>
+                      <FavoriteIcon/>
+                      </IconButton>
+                    ) : (
+                      <IconButton   onClick={() => postLike(post.id)}
+                      sx={{ fontSize: { sm: 27 }, cursor: 'pointer' }}>
+
+                      <FavoriteBorderIcon
+                      
+                      />
+                      </IconButton>
+                    )}
+                  {/* </IconButton> */}
+                  {post.likes.length}
+                  <IconButton aria-label="share">
+                    <ShareIcon />
                   </IconButton>
-                }
-                title={post.title}
-                subheader={post.created_at}
-              />
-              <CardMedia
-                component="img"
-                style={{ width: '100%' }}
-                image={`${baseURL}${post.post}`}
-                alt="post"
-              />
-              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '2%' }}>
-                <div>
-                  {isUserLiked(post) ? (
-                    <FavoriteIcon
-                      onClick={() => likePost(post.id)}
-                      sx={{ fontSize: { xs: 30, sm: 40 }, color: 'red', cursor: 'pointer' }}
-                    />
-                  ) : (
-                    <FavoriteBorder
-                      onClick={() => likePost(post.id)}
-                      sx={{ fontSize: { xs: 30, sm: 40 }, cursor: 'pointer' }}
-                    />
-                  )}
-                </div>
-                <div>
-                  <CommentOutlinedIcon sx={{ fontSize: { xs: 30, sm: 40 }, cursor: 'pointer' }} />
-                </div>
+                  <Tooltip title={expandedState[post.id] ? 'Collapse' : 'Expand'}>
+                    <div>
+                      <IconButton
+                        aria-label="show more"
+                        onClick={() => handleExpandClick(post.id)}
+                      >
+                        <CommentIcon />
+                      </IconButton>
+                      {post.comments.length}
+                    </div>
+                  </Tooltip>
+                </CardActions>
+                <Collapse in={expandedState[post.id]} timeout="auto" unmountOnExit>
+                  <CardContent>
+                    <Typography paragraph>
+                      <TextField
+                        label="Add a comment"
+                        variant="standard"
+                        size="small"
+                        fullWidth
+                        value={commentText}
+                        onChange={handleCommentChange}
+                      />
+                      <Button onClick={() => postComment(post.id)}>Post</Button>
+                    </Typography>
+                    <Typography paragraph>Comments</Typography>
+                    <Typography paragraph>
+                      {post.comments.map((comment) => (
+                        <div className='comment-list' key={comment.id}>
+                          <Box sx={{ m: 'auto', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center',textAlign:"left" }}>
+                            <Avatar>{comment.user.username[0].toUpperCase()}</Avatar>
+                            <div style={{ marginLeft: '8px', display: 'flex', flexDirection: 'column' }}>
+                              <Typography variant="body1">
+                                <b>{comment.user.username}</b> {comment.text}
+                              </Typography>
+                              <Typography variant="caption" color="textSecondary">
+                                {new Date(comment.created_at).toLocaleString()}{renderDeleteButton(comment)}     
+                              </Typography>
+                                                     </div>
+                          </Box>
+                        </div>
+                      ))}
+                    </Typography>
+                  </CardContent>
+                </Collapse>
               </div>
-            </div>
-          ))}
-        </Card>
-      </div>//         <div style={{display:"flex",justifyContent:"center"}}>
-//         <div>
-//         {posts.map((post) => (
-// <Card sx={{ maxWidth: 345 }}>
-// <CardHeader
-//   avatar={
-//     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-//       {post.username}
-//     </Avatar>
-//   }
-//   action={
-//     <IconButton aria-label="settings">
-//       <MoreVertIcon />
-//     </IconButton>
-//   }
-//   title={post.title}
-//   subheader={post.created_at}
-// />
-// <CardMedia
-//   component="img"
-//   height="194"
-//   image={`${baseURL}/${post.post}`}
-//   alt="post"
-// />
-// <CardContent>
-  
-// </CardContent>
-// <CardActions disableSpacing>
-//   <IconButton aria-label="add to favorites">
-//   {isUserLiked(post) ?<FavoriteIcon
-//   onClick={() => likePost(post.id)}
-//   sx={{ fontSize: 30, color:'red', cursor: 'pointer' }}
-// />:
-// <FavoriteBorder onClick={() => likePost(post.id)} sx={{ fontSize: 30 ,cursor: 'pointer' }} />}
-//   </IconButton>
-//   <IconButton aria-label="comment">
-//   <CommentOutlinedIcon sx={{ fontSize: 30 ,cursor: 'pointer' }} />
-//   </IconButton>
-
-
-//   <IconButton aria-label="share">
-//     <ShareIcon />
-//   </IconButton>
-//   {/* <ExpandMore
-//     expand={expanded}
-//     onClick={handleExpandClick}
-//     aria-expanded={expanded}
-//     aria-label="show more"
-//   >
-//     <ExpandMoreIcon />
-//   </ExpandMore> */}
-// </CardActions>
-// <Collapse in={expanded} timeout="auto" unmountOnExit>
-//   <CardContent>
-//     <Typography paragraph>Description</Typography>
-//     <Typography paragraph>
-//      {post.description}
-//     </Typography>
-//   </CardContent>
-// </Collapse>
-// </Card>
-
-      //   ))}
-      // </div>
-      // </div>
+            ))}
+          </Card>
+        </div>
       )}
     </div>
   );

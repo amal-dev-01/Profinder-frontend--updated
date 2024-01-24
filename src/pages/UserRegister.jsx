@@ -45,7 +45,6 @@ export default function LoginPage() {
       password: password,
       password2: password2,
       is_professional: is_professional
-
     }
 
     try {

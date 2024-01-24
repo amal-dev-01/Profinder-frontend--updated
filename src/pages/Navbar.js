@@ -144,7 +144,7 @@ function Navbar() {
           >
             LOGO
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'flex-end' }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'flex-center',alignItems:'center' }}>
             {pages.map((page) => (
               <Button
                 key={page}

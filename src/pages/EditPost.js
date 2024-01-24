@@ -78,6 +78,8 @@ const EditPost = () => {
               label="Title"
               variant="outlined"
               value={title}
+              sx={{width:'60%'}}
+
               onChange={(e) => setTitle(e.target.value)}
             />
           </Grid>
@@ -88,6 +90,7 @@ const EditPost = () => {
               rows={4}
               variant="outlined"
               value={description}
+              sx={{width:'60%'}}
               onChange={(e) => setDescription(e.target.value)}
             />
           </Grid>
