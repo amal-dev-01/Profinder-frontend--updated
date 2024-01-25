@@ -103,6 +103,54 @@ export const logout = createAsyncThunk(
     }
   );
 
-
-
+  export const getUserProfile = createAsyncThunk(
+    'auth/user',
+    async (pk, { rejectWithValue }) => {
+      try {
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('authtoken')}`,
+          },
+        };
   
+        const response = await axiosInstance.get(`user_view/${pk}/`, config);
+        console.log(response.data);  
+   
+        return response.data;
+      } catch (error) {
+        if (error.response && error.response.data.message) {
+          console.log(error.response);
+          return rejectWithValue(error.response.data.message);
+        } else {
+          return rejectWithValue(error.message);
+        }
+      }
+    }
+  );
+
+  export const getUserPost = createAsyncThunk(
+    'auth/userpost',
+    async (pk, { rejectWithValue }) => {
+      try {
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('authtoken')}`,
+          },
+        };
+  
+        const response = await axiosInstance.get(`user_post/${pk}/`, config);
+        console.log(response.data);  
+   
+        return response.data;
+      } catch (error) {
+        if (error.response && error.response.data.message) {
+          console.log(error.response);
+          return rejectWithValue(error.response.data.message);
+        } else {
+          return rejectWithValue(error.message);
+        }
+      }
+    }
+  );

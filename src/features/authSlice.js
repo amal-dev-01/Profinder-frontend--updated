@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { jwtDecode } from 'jwt-decode';
-import {  login, logout, userPost, userProfile } from './authAction'
+import {  getUserPost, getUserProfile, login, logout, userPost, userProfile } from './authAction'
 
 const authtoken = localStorage.getItem('authtoken')
   ? localStorage.getItem('authtoken')
@@ -18,7 +18,9 @@ const initialState = {
   error: null,
   success: false,
   userProfile:null,
-  userPost :null
+  userPost :null,
+  getUser:null,
+  getPost:null,
 }
 
 
@@ -88,7 +90,37 @@ const authSlice = createSlice({
     .addCase(userPost.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-    });
+    })
+
+
+    .addCase(getUserProfile.pending, (state) => {
+      console.log('getUserProfile pending');
+
+      state.loading = true;
+    })
+    .addCase(getUserProfile.fulfilled, (state, { payload }) => {
+      console.log('getUserProfile fulfilled', payload);
+      state.loading = false;
+      state.getUser = payload;
+    })
+    .addCase(getUserProfile.rejected, (state, { payload }) => {
+      console.log('getUserProfile rejected', payload);
+      state.loading= false;
+      state.error = payload;
+    })
+
+
+    .addCase(getUserPost.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(getUserPost.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.getPost = payload;
+    })
+    .addCase(getUserPost.rejected, (state, { payload }) => {
+      state.loading= false;
+      state.error = payload;
+    })
 
 
     
@@ -99,5 +131,7 @@ export default authSlice.reducer
 export const selectAuthToken = (state) => state.user.authtoken;
 export const selectUserProfile = (state) => state.user.userProfile;
 export const selectUserPost= (state) => state.user.userPost;
+// export const selectGetUserProfile= (state) => state.user.getUserProfile;
+
 
 

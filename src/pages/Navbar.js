@@ -32,7 +32,7 @@ function Navbar() {
     }
   };
   const navigate = useNavigate()
-  const settings = [<Typography onClick={() => navigate('/userprofile')}>Profile</Typography>,
+  const settings = [<Typography onClick={() => navigate('/profile')}>Profile</Typography>,
   <Typography onClick={handleLogout}>LogOut</Typography>
   ];
 

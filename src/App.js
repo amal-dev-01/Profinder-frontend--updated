@@ -20,34 +20,44 @@ import PaymentSucess from './pages/PaymentSucess';
 import ProfileView from './pages/Profile/ProfileView';
 import Sidebar from './pages/Sidebar';
 import UserPost from './pages/UserPost';
+import PostDetailsView from './pages/Post/PostDetailsView';
+import UserView from './pages/Profile/UserView';
 
 function App() {
   return (
     <div className="App">
-        <Router>
+      <Router>
         <Routes>
-        <Route path='/userprofile' element={<UserProfile/>}/>
-        <Route path='/postview/:id' element={<PostView/>}/>
-        <Route path='/temp' element={<UserPost/>}/>
-        <Route path='/postlist' element={<PostList/>}/>
-        <Route path='/like' element={<Like/>}/>
-        <Route path='/chat' element={<ChatArea/>}/>
-        <Route path='/checkout' element={<CheckOut/>}/>
-        <Route path='/success' element={<PaymentSucess/>}/>
-        {/* <Route path="start" element={<Conversations />} /> */}
+          <Route path='/postview/:id' element={<PostView />} />
+          <Route path='/temp' element={<UserPost />} />
+          <Route path='/like' element={<Like />} />
+          <Route path='/chat' element={<ChatArea />} />
+          <Route path='/checkout' element={<CheckOut />} />
+          <Route path='/success' element={<PaymentSucess />} />
+          {/* <Route path="start" element={<Conversations />} /> */}
 
 
-        <Route path='/editpost/:id' element={<EditPost/>}/>
-        <Route path='/' element={<Login/>}/>
-        <Route path='/otp/:email' element={<Otppage/>}/>
-        <Route path='/home' element={<Home/>}/>
-        <Route path='/editprofile' element={<EditUserProfile/>}/>
-        <Route path='/addpost' element={<CreatePost/>}/>
-        <Route path='/register' element={<UserRegister/>}/>
 
-        <Route path='/chating/:roomName' element={<Chat/>}/>
 
-        <Route path='/profile' element={<ProfileView/>}/>
+          <Route path='/postlist' element={<PostList />}>
+            <Route path='/postlist/:id' element={<PostDetailsView />} />
+          </Route>
+          
+          <Route path='postlist/userview/:id' element={<UserView />} />
+          <Route path='/postdetails/:id' element={<PostDetailsView />} />
+          <Route path='userview/:id' element={<UserView />} />
+          <Route path='/userprofile/:id' element={<UserProfile />} />
+          <Route path='/editpost/:id' element={<EditPost />} />
+          <Route path='/' element={<Login />} />
+          <Route path='/otp/:email' element={<Otppage />} />
+          <Route path='/home' element={<Home />} />
+          <Route path='/editprofile' element={<EditUserProfile />} />
+          <Route path='/addpost' element={<CreatePost />} />
+          <Route path='/register' element={<UserRegister />} />
+
+          <Route path='/chating/:roomName' element={<Chat />} />
+
+          <Route path='/profile' element={<ProfileView />} />
 
 
 
@@ -55,7 +65,7 @@ function App() {
 
 
         </Routes>
-        </Router>
+      </Router>
 
     </div>
   );

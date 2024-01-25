@@ -20,9 +20,11 @@ import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import { red } from '@mui/material/colors';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import SendIcon from '@mui/icons-material/Send';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { Grid } from '@mui/material';
 
 const PostList = () => {
   const [expandedState, setExpandedState] = useState({});
@@ -34,8 +36,7 @@ const PostList = () => {
   const [liked, setLiked] = useState(false);
   const [commented, setCommented] = useState([]);
   const [commentText, setCommentText] = useState('');
-  const [deleted, setDeleted] = useState("");
-
+const navigate=useNavigate()
 
   const user = authToken ? jwtDecode(authToken) : null;
 
@@ -75,7 +76,7 @@ const PostList = () => {
     if (authToken) {
       listPosts();
     }
-  }, [authToken, liked, commented,deleted]);
+  }, [authToken, liked, commented]);
 
   const isUserLiked = (post) => {
     return post.likes.some((like) => like.user.username === user.username);
@@ -141,17 +142,16 @@ const PostList = () => {
           },
         }
       );
-  
-      if (response.status === 204) {
-        setDeleted(" ")
 
+      if (response.status === 204) {
+        listPosts();
         console.log('Comment deleted successfully');
       }
     } catch (error) {
       console.error('Error deleting comment:', error);
     }
   };
-  
+
 
 
 
@@ -169,12 +169,19 @@ const PostList = () => {
     return null;
   };
 
+
+
   return (
-    <div>
+<div style={{ backgroundImage: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)' }}>
       <h2>Explore</h2>
+      <Grid container spacing={2}>
+      <Grid item xs={12} sm={4}>
+      <div style={{ overflowY: 'auto', maxHeight: '100vh' }}>
+
       {loading && <p>Loading posts...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {!loading && !error && (
+
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Card sx={{ maxWidth: 400 }}>
             {posts.map((post) => (
@@ -186,7 +193,7 @@ const PostList = () => {
                     </Avatar>
                   }
                   action={
-                    <IconButton aria-label="settings">
+                    <IconButton aria-label="settings" onClick={()=>navigate(`userview/${post.user}`)}>
                       <MoreVertIcon />
                     </IconButton>
                   }
@@ -197,6 +204,7 @@ const PostList = () => {
                   component="img"
                   height="200"
                   image={`${baseURL}${post.post}`}
+                onClick={() => navigate(`/postlist/${post.id}`)}
                   alt="No post"
                 />
                 <CardContent>
@@ -217,22 +225,20 @@ const PostList = () => {
                   </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                  {/* <IconButton aria-label="add to favorites"> */}
-                    {isUserLiked(post) ? (
-                      <IconButton  onClick={() => postLike(post.id)}
+                  {isUserLiked(post) ? (
+                    <IconButton onClick={() => postLike(post.id)}
                       sx={{ fontSize: { sm: 27 }, color: 'red', cursor: 'pointer' }}>
-                      <FavoriteIcon/>
-                      </IconButton>
-                    ) : (
-                      <IconButton   onClick={() => postLike(post.id)}
+                      <FavoriteIcon />
+                    </IconButton>
+                  ) : (
+                    <IconButton onClick={() => postLike(post.id)}
                       sx={{ fontSize: { sm: 27 }, cursor: 'pointer' }}>
 
                       <FavoriteBorderIcon
-                      
+
                       />
-                      </IconButton>
-                    )}
-                  {/* </IconButton> */}
+                    </IconButton>
+                  )}
                   {post.likes.length}
                   <IconButton aria-label="share">
                     <ShareIcon />
@@ -256,37 +262,48 @@ const PostList = () => {
                         label="Add a comment"
                         variant="standard"
                         size="small"
-                        fullWidth
+                        style={{ width: "80%" }}
                         value={commentText}
                         onChange={handleCommentChange}
                       />
-                      <Button onClick={() => postComment(post.id)}>Post</Button>
+                      <IconButton onClick={() => postComment(post.id)}><SendIcon /></IconButton>
                     </Typography>
                     <Typography paragraph>Comments</Typography>
                     <Typography paragraph>
                       {post.comments.map((comment) => (
                         <div className='comment-list' key={comment.id}>
-                          <Box sx={{ m: 'auto', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center',textAlign:"left" }}>
+                          <Box sx={{ m: 'auto', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center', textAlign: "left" }}>
                             <Avatar>{comment.user.username[0].toUpperCase()}</Avatar>
                             <div style={{ marginLeft: '8px', display: 'flex', flexDirection: 'column' }}>
                               <Typography variant="body1">
                                 <b>{comment.user.username}</b> {comment.text}
                               </Typography>
                               <Typography variant="caption" color="textSecondary">
-                                {new Date(comment.created_at).toLocaleString()}{renderDeleteButton(comment)}     
+                                {new Date(comment.created_at).toLocaleString()}{renderDeleteButton(comment)}
                               </Typography>
-                                                     </div>
+                            </div>
                           </Box>
                         </div>
                       ))}
                     </Typography>
                   </CardContent>
                 </Collapse>
-              </div>
+                </div>
             ))}
           </Card>
         </div>
       )}
+  
+      </div>
+      </Grid>
+      {window.innerWidth >= 700 ? (
+    <Grid item xs={12} sm={8}>
+      <Outlet />
+    </Grid>
+  ) : null}
+
+
+      </Grid>
     </div>
   );
 };

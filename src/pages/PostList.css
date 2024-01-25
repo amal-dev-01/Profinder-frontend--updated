@@ -1,4 +1,4 @@
-.post-scroll-container {
+/* .post-scroll-container {
     display: grid;
     grid-template-columns: auto;
     overflow-x: auto;
@@ -16,9 +16,9 @@
     overflow: hidden;
     width: 700px;
     /* width: 50%; */
-  }
+  /* } */
   
-  .post-info {
+  /* .post-info {
     padding: 10px;
     justify-content: left;
   }
@@ -41,8 +41,8 @@
   .post-image {
     width: 100%;
     height: auto;
-  }
-  
+  } */
+/*   
   .post-actions {
     position: absolute;
     bottom: 10px;
@@ -50,5 +50,5 @@
     display: flex;
     gap: 10px;
     color: #fff;
-  }
-  
+  } */
+   /* */ 
