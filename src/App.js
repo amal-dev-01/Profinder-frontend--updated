@@ -22,6 +22,12 @@ import Sidebar from './pages/Sidebar';
 import UserPost from './pages/UserPost';
 import PostDetailsView from './pages/Post/PostDetailsView';
 import UserView from './pages/Profile/UserView';
+import Book from './pages/Booking/Book';
+import UserBookingList from './pages/Booking/UserBookingList';
+import ProfessionalBook from './pages/Booking/ProfessionalBook';
+import ProfessionalBookAccept from './pages/Booking/ProfessionalBookAccept';
+import ProfessionalCompletion from './pages/Booking/ProfessionalCompletion';
+import UserConfirmation from './pages/Booking/UserConfirmation';
 
 function App() {
   return (
@@ -34,6 +40,18 @@ function App() {
           <Route path='/chat' element={<ChatArea />} />
           <Route path='/checkout' element={<CheckOut />} />
           <Route path='/success' element={<PaymentSucess />} />
+          <Route path='/booking/:id/:username' element={<Book />} />
+          <Route path='/userbooking' element={<UserBookingList />} />
+          <Route path='/probooking' element={<ProfessionalBook />} />
+          <Route path='/probookingaccept' element={<ProfessionalBookAccept/>} />
+          <Route path='/probookingcomplete' element={<ProfessionalCompletion/>} />
+          <Route path='/userconfirmation/:id' element={<UserConfirmation/>} />
+
+
+
+
+
+
           {/* <Route path="start" element={<Conversations />} /> */}
 
 

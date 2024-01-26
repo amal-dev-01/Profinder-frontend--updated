@@ -7,20 +7,19 @@ import { baseURL } from '../../features/baseUrl';
 import CardContent from '@mui/material/CardContent';
 import CommentIcon from '@mui/icons-material/Comment';
 import Avatar from '@mui/material/Avatar';
-import { userPost } from '../../features/authAction';
 import axiosInstance from '../../features/axios';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import SendIcon from '@mui/icons-material/Send';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { jwtDecode } from 'jwt-decode';
+import { List, ListItem, ListItemAvatar, ListItemText } from '@mui/material';
+
 
 const PostDetailsView = () => {
 
-  const { id } = useParams();
+  const { id ,} = useParams();
   const authToken = localStorage.getItem('authtoken');
-  const userPostData = useSelector(selectUserPost);
-  const dispatch = useDispatch();
   const [showComments, setShowComments] = useState(false);
   const [showLikes, setShowLikes] = useState(false);
   const [liked, setLiked] = useState(false);
@@ -42,7 +41,6 @@ const PostDetailsView = () => {
         },
       });
       setpostData(response.data);
-      // console.log(response.data,'kkkk');
     } catch (error) {
       console.error(error);
     }
@@ -107,7 +105,6 @@ const PostDetailsView = () => {
   useEffect(() => {
     if (authToken) {
       checkIsUserLiked()
-      // dispatch(userPost(id));
     }
   }, [authToken, showComments, showLikes, , liked, commented, deleted]);
 
@@ -161,10 +158,11 @@ const PostDetailsView = () => {
   };
 
 
+  const reversedComments = postData.comments && [...postData.comments].reverse();
 
 
 
-  if (!userPostData) {
+  if (!postData) {
     return (
       <Container maxWidth="md" style={{ marginTop: '20px' }}>
         <Paper elevation={3} style={{ padding: '20px' }}>
@@ -196,7 +194,7 @@ const PostDetailsView = () => {
                       </IconButton>
 
                     )}
-                    {postData.likes.length}
+              {postData?.likes?.length}
 
                   </div>
                   <div style={{ padding: "10px" }}>
@@ -206,7 +204,7 @@ const PostDetailsView = () => {
                     >
                       <CommentIcon />
                     </IconButton>
-                    {postData.comments.length}
+                    {postData?.comments?.length}
                   </div>
                 </div>
                 <FavoriteIcon onClick={handleLikesClick} />
@@ -224,24 +222,32 @@ const PostDetailsView = () => {
           </Grid>
 
           <Grid item xs={4} sm={6}>
-          <Card sx={{ maxWidth: 345 }}>
+          {/* <Card sx={{ maxWidth: 345 }}> */}
 
             <div style={{ height: "100%", padding: "5%", display: "flex", alignItems: "center", justifyContent: "center" }}>
 
               {showComments && (
                 <Box>
                   <Typography paragraph>
-                    <TextField
+                    <input 
                       label="Add a comment"
                       variant="standard"
                       size="small"
-                      style={{ width: "80%" }}
+                      style={{ border: 'none',
+                      borderRadius: '15px',
+                      padding: '15px',
+                      backgroundColor: '#e8e8e8',
+                      boxShadow: '6px 6px 12px #ffffff, -6px -6px 12px #c5c5c5',
+                      fontSize: 'medium',
+                      fontWeight: 'bold',
+                      maxWidth: '200px',
+                  }}
                       value={commentText}
                       onChange={handleCommentChange}
                     />
-                    <IconButton onClick={() => postComment(id)}><SendIcon /></IconButton>
+                    <IconButton onClick={() => postComment(id)}><SendIcon sx={{fontSize: { sm: 32 }}} /></IconButton>
                   </Typography>
-                  {postData.comments && postData.comments.map((comment) => (
+                  {/* {postData.comments && postData.comments.map((comment) => (
                     <div className='comment-list' key={comment.id}>
                       <Box sx={{ m: 'auto', display: 'flex', alignItems: 'center', gap: 2 }}>
                         <Avatar>{comment.user.username[0].toUpperCase()}</Avatar>
@@ -258,13 +264,40 @@ const PostDetailsView = () => {
                         </div>
                       </Box>
                     </div>
-                  ))}
+                  ))} */}
+                   <List>
+                   {postData.comments && postData.comments.slice().reverse().map((comment) => (      
+                      <ListItem key={comment.id} alignItems="flex-start">
+          <ListItemAvatar>
+            <Avatar alt={comment.user.username} src={comment.user.photoUrl} />
+          </ListItemAvatar>
+          <ListItemText
+            primary={
+              <React.Fragment>
+                <Typography component="span" variant="body1" color="textPrimary">
+                  <b>{comment.user.username}</b>
+                </Typography>
+                {` - ${comment.text}`}{renderDeleteButton(comment)}
+              </React.Fragment>
+            }
+            secondary={
+              <React.Fragment>
+                <Typography component="span" variant="body2" color="textSecondary">
+                {new Date(comment.created_at).toLocaleString()}
+                </Typography>
+              </React.Fragment>
+            }
+          />
+        </ListItem>
+      ))}
+    </List>
                 </Box>
               )}
 
 
               {showLikes && (
                 <Box>
+                  
                   {postData.likes && postData.likes.map((like) => (
                     <div key={like.id}>
                       <Box sx={{ m: 'auto', display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -286,7 +319,7 @@ const PostDetailsView = () => {
                 </Box>
               )}
             </div>
-            </Card>
+            {/* </Card> */}
           </Grid>
         </Grid>
 

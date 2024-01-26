@@ -7,7 +7,6 @@ import { ConnectWithoutContact, Group, Public } from '@mui/icons-material';
 import { Card, CardContent, Typography, Grid, Container } from '@mui/material';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import Navbar from './Navbar';
 import './Home.css'
 import Carousel from 'react-bootstrap/Carousel';
 import Footer from './Footer';
@@ -15,6 +14,55 @@ import Services from './Sevices';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
+import Navbar from './Navbar/Navbar';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+
+
+const useStyles = makeStyles((theme) => ({
+  homeMain: {
+  
+    padding: theme.spacing(2),
+
+  },
+
+  badge: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent:'center',
+    borderRadius: theme.spacing(3), 
+    width: '100%',
+    maxWidth: 400,
+    fontSize: 16,
+    fontWeight:800,
+    fontFamily: 'Source Serif 4", Georgia, serif',
+    padding: theme.spacing(1),
+    color: 'black',
+    backgroundColor: '#ffda79',
+    marginTop: theme.spacing(12),
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 16,
+      padding: theme.spacing(2),
+      marginTop: theme.spacing(12),
+      
+    },
+  },
+  heroHeading: {
+    maxWidth: 340,
+    margin: '40px auto 24px',
+    marginTop: theme.spacing(17),
+    fontFamily: 'Source Serif 4", Georgia, serif',
+    fontSize: 48,
+    fontWeight: 400,
+    letterSpacing: '-0.5px',
+    lineHeight: '56px',
+    color: 'black',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 18,
+    },
+  },
+}));
 
 
 const Home = () => {
@@ -86,11 +134,26 @@ const Home = () => {
 
   ];
 
+  const classes = useStyles();
+
+
   return (
     <div>
+        <Navbar/>
+        <Grid container className={classes.homeMain}>
+      <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+        <Paper elevation={3} className={classes.badge}>
+          Method is used to create a shallow
+        </Paper>
+        <Typography variant="h1" align="center" >
+          <Typography  variant="h1" className={classes.heroHeading}>Connect with</Typography>
+          <Typography  variant="h1" className={classes.heroHeading}>Professionals</Typography>
+        </Typography>
+      </Grid>
+      </Grid>
+
 
       <div className='main-div'>
-        <Navbar />
         <div className='homemainbody' >
           <div className='homebodyleft'>
             <h1 className='hometxt'>Connect with Professionals</h1>

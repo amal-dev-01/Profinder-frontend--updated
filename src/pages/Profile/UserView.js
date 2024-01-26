@@ -127,7 +127,7 @@ export default function UserView() {
                                             </div>
                                         <div>
                                             <Button onClick={() => navigate()}>Follow</Button>
-                                            <Button onClick={() => navigate()}>Book</Button>
+                                            <Button onClick={() => navigate(`/booking/${id}/${user.username}`)}>Book</Button>
                                             <Button onClick={() => navigate()}>Chat</Button>
 
                                         </div>
