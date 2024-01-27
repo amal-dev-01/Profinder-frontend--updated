@@ -4,7 +4,7 @@ import { logout, userProfile, } from '../features/authAction';
 import { useNavigate } from 'react-router-dom';
 import Loading from './Loading';
 import { ConnectWithoutContact, Group, Public } from '@mui/icons-material';
-import { Card, CardContent, Typography, Grid, Container } from '@mui/material';
+import { Card, CardContent, Typography, Grid, Container, Button } from '@mui/material';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import './Home.css'
@@ -17,6 +17,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import Navbar from './Navbar/Navbar';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import styled, { keyframes } from 'styled-components';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent:'center',
     borderRadius: theme.spacing(3), 
     width: '100%',
-    maxWidth: 400,
+    maxWidth: 350,
     fontSize: 16,
     fontWeight:800,
     fontFamily: 'Source Serif 4", Georgia, serif',
@@ -49,17 +51,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   heroHeading: {
-    maxWidth: 340,
-    margin: '40px auto 24px',
-    marginTop: theme.spacing(17),
-    fontFamily: 'Source Serif 4", Georgia, serif',
-    fontSize: 48,
-    fontWeight: 400,
-    letterSpacing: '-0.5px',
-    lineHeight: '56px',
+    maxWidth: 900,
+    marginTop: theme.spacing(12),
     color: 'black',
     [theme.breakpoints.down('sm')]: {
-      fontSize: 18,
+      fontSize: '40px',
+    
     },
   },
 }));
@@ -71,6 +68,29 @@ const Home = () => {
   const navigate = useNavigate()
   const { loading, userInfo, authtoken } = useSelector((state) => state.user)
 
+
+//   const moveRight = keyframes`
+//   0% {
+//     transform: translateX(100%);
+//   }
+//   100% {
+//     transform: translateX(-100%);
+//   }
+// `;
+
+// const MarqueeContainer = styled.div`
+//   display: flex;
+//   overflow: hidden;
+//   width: 100%;
+// `;
+
+
+// const MarqueeImage = styled.img`
+//   width: 300px;
+//   height: 250px; 
+//   margin-right: 16px; 
+//   animation: ${moveRight} 20s linear infinite; 
+// `;
 
 
   const getUserProfile = async () => {
@@ -134,6 +154,17 @@ const Home = () => {
 
   ];
 
+  // const images = [
+  //   'https://images.unsplash.com/photo-1682687218608-5e2522b04673?q=80&w=1975&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  //   'https://images.unsplash.com/photo-1705951501021-a89160066251?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  //   'https://images.unsplash.com/photo-1706108439810-f887f16a22bf?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  //   'https://images.unsplash.com/photo-1682695795557-17447f921f79?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  //   'https://images.unsplash.com/photo-1699870798609-b5c3e7e5900d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzNXx8fGVufDB8fHx8fA%3D%3D',
+  //   // 'https://images.unsplash.com/photo-1705798543468-5b951da25e1e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzOHx8fGVufDB8fHx8fA%3D%3D'
+  // ];
+
+
+
   const classes = useStyles();
 
 
@@ -142,38 +173,32 @@ const Home = () => {
         <Navbar/>
         <Grid container className={classes.homeMain}>
       <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-        <Paper elevation={3} className={classes.badge}>
+        <Paper className={classes.badge}>
           Method is used to create a shallow
         </Paper>
-        <Typography variant="h1" align="center" >
-          <Typography  variant="h1" className={classes.heroHeading}>Connect with</Typography>
-          <Typography  variant="h1" className={classes.heroHeading}>Professionals</Typography>
-        </Typography>
+        <Grid container sx={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column'}}>
+      <Typography className={classes.heroHeading} sx={{ fontSize: '70px', fontFamily: 'Roboto',padding:'20px'}}>
+      Discover Top Professionals Near You      </Typography>
+      <Typography sx={{fontSize:'20px',fontFamily:"cursive"}}> Explore Limitless Opportunities, Forge Powerful Connections, and Grow Together in Your Professional Journey</Typography>
+      <Button sx={{backgroundColor:'black',color:'white',borderRadius:'30px',textTransform: 'none',padding:'15px',marginTop:"25px" ,paddingLeft:"25px",paddingRight:'25px'}}>Get  Started</Button>
       </Grid>
       </Grid>
+      </Grid>
+      {/* <MarqueeContainer>
+      {images.map((image, index) => (
+        <MarqueeImage key={index} src={image} alt={`Image ${index + 1}`} />
+      ))}
+    </MarqueeContainer> */}
 
 
       <div className='main-div'>
         <div className='homemainbody' >
           <div className='homebodyleft'>
-            <h1 className='hometxt'>Connect with Professionals</h1>
+            {/* <h1 className='hometxt'>Connect with Professionals</h1> */}
 
-            <p className='sub-text animated-text'>Explore opportunities, network, and grow together,</p>
+            {/* <p className='sub-text animated-text'>Explore opportunities, network, and grow together,</p> */}
 
-            <form className='search-form' onSubmit={handleSubmit}>
-              <TextField
-                fullWidth
-                name='search'
-                margin='normal'
-                InputProps={{
-                  startAdornment: (
-                    <IconButton type='submit'>
-                      <SearchIcon />
-                    </IconButton>
-                  ),
-                }}
-              />
-            </form>
+  
 
 
           </div>

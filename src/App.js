@@ -28,6 +28,13 @@ import ProfessionalBook from './pages/Booking/ProfessionalBook';
 import ProfessionalBookAccept from './pages/Booking/ProfessionalBookAccept';
 import ProfessionalCompletion from './pages/Booking/ProfessionalCompletion';
 import UserConfirmation from './pages/Booking/UserConfirmation';
+import ListUser from './pages/admin/ListUser';
+import ListProfessionals from './pages/admin/ListProfessionals';
+import Profileview from './pages/admin/profileview';
+import BookList from './pages/admin/BookList';
+import { BookDetails } from './pages/admin/BookDetails';
+import FilterBooking from './pages/admin/FilterBooking';
+import Payment from './pages/admin/Payment';
 
 function App() {
   return (
@@ -46,6 +53,25 @@ function App() {
           <Route path='/probookingaccept' element={<ProfessionalBookAccept/>} />
           <Route path='/probookingcomplete' element={<ProfessionalCompletion/>} />
           <Route path='/userconfirmation/:id' element={<UserConfirmation/>} />
+
+          <Route path='/admin/userlist' element={<ListUser/>} />
+          <Route path='/admin/professionallist' element={<ListProfessionals/>} />
+          <Route path='/admin/profile/:id' element={<Profileview/>} />
+          <Route path='/admin/bookings' element={<BookList/>} />
+          <Route path='/admin/booking/details/:id' element={<BookDetails/>} />
+          <Route path='/admin/booking/filter' element={<FilterBooking/>} />
+          <Route path='/admin/booking/payment' element={<Payment/>} />
+
+
+
+
+
+
+
+
+
+
+
 
 
 
