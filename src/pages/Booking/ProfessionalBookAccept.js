@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Card, CardContent, Typography,CardActions,Button } from '@mui/material';
 import axiosInstance from '../../features/axios';
+import Navbar from '../Navbar/Navbar';
 
 
 const ProfessionalBookAccept = () => {
@@ -63,10 +64,12 @@ const ProfessionalBookAccept = () => {
 
   return (
     <div>
+      <Navbar/>
+          <div style={{width:"100%",padding:"20px"}}>
          {booking && booking.length > 0 ? (
     booking.map((book) => (
       <div key={book.id}>
-        <Card sx={{ maxWidth: 345 }}>
+        <Card sx={{ marginBottom: 2 }}>
       <CardContent sx={{textAlign:'left'}}>
         <Typography>Professional :   {book.professional_name}</Typography>
         <Typography>User :{book.user_name}</Typography>
@@ -90,6 +93,7 @@ const ProfessionalBookAccept = () => {
       
       <Typography>No bookings available.</Typography>
       )}
+    </div>
     </div>
   )
 }

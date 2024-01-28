@@ -29,6 +29,8 @@ const UpdateImageForm = ({ onClose }) => {
         try {
             const formData = new FormData();
             formData.append('userprofile.image', image || '');
+            formData.append('professionalprofile.image', image || '');
+
 
 
             const response = await axiosInstance.put('userprofile/', formData, {

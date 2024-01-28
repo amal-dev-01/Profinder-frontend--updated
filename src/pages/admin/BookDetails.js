@@ -32,10 +32,10 @@ export const BookDetails = () => {
 
 
   return (
-     <div>
+     <div  style={{width:'80%'}}>
   {
       <div key={booking.id}>
-        <Card sx={{ maxWidth: 345 }}>
+        <Card style={{width:'100%'}} >
           <CardContent sx={{ textAlign: 'left' }}>
             <Typography>User: {booking.user_name}</Typography>
             <Typography>Address: {booking.address}</Typography>

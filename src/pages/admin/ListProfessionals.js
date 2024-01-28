@@ -35,11 +35,11 @@ const ListProfessionals = () => {
     }, [authToken])
 
     return (
-        <div>
+        <div style={{width:'80%'}}>
 
-            <List sx={{ width: '100%', maxWidth: 500, bgcolor: 'background.paper', padding:'10px' }}>
+            <List sx={{ width: '100%', bgcolor: 'background.paper', padding:'10px' }}>
                 {professional.map((user, index) => (
-                    <Card key={user.id}>
+                    <Card key={user.id} sx={{ marginBottom: 3 }} style={{width:'100%'}}>
                         <ListItem alignItems="flex-start">
                             <ListItemAvatar>
                                 <Avatar alt="User" src={user?.userprofile?.image} />

@@ -17,6 +17,12 @@ const EditUserProfile = () => {
   const [phone, setPhone] = useState('');
   const [bio, setBio] = useState('');
   const [address, setAddress] = useState('');
+  const [job, setJob] = useState('');
+  const [skill, setSkill] = useState('');
+  const [exp, setExp] = useState('');
+
+
+
   // const [image, setImage] = useState('');
   const [showUploadForm, setShowUploadForm] = useState(false);
 
@@ -45,9 +51,11 @@ const EditUserProfile = () => {
       setFirstName(userProfileData.first_name || '');
       setLastName(userProfileData.last_name || '');
       setPhone(userProfileData.phone || '');
-      setBio(userProfileData.userprofile.bio || '');
-      setAddress(userProfileData.userprofile.address || '');
-      // setImage(userProfileData.userprofile.image || '');
+      setBio(userProfileData.userprofile?.bio || userProfileData.professionalprofile?.bio || '');
+      setAddress(userProfileData.userprofile?.address || userProfileData.professionalprofile?.address ||'');
+      setJob(userProfileData.professionalprofile?.job ||'');
+      setSkill( userProfileData.professionalprofile?.skills ||'');
+      setExp( userProfileData.professionalprofile?.experience ||'');
     }
   }, [userProfileData]);
 
@@ -66,6 +74,17 @@ const EditUserProfile = () => {
       formData.append('phone', phone);
       formData.append('userprofile.bio', bio || ' ');
       formData.append('userprofile.address', address || ' ');
+  
+      if (userProfileData.is_professional) {
+        formData.append('professionalprofile.bio', bio || ' ');
+        formData.append('professionalprofile.address', address || ' ');
+        formData.append('professionalprofile.job', job.trim() || 'Default Job');
+        formData.append('professionalprofile.experience', parseInt(exp, 10) || 0);
+        formData.append('professionalprofile.skills', skill.trim() || 'Default Skills');
+      }
+  
+
+
 
       // formData.append('userprofile.image', image || '');
 
@@ -147,7 +166,6 @@ const EditUserProfile = () => {
 
             <TextField
               margin="normal"
-
               fullWidth
               label="Last Name"
               name="last_name"
@@ -180,14 +198,36 @@ const EditUserProfile = () => {
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
+            {userProfileData?.is_professional && (
+              <>
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  label="Job"
+                  name="job"
+                  value={job}
+                  onChange={(e) => setJob(e.target.value)}
+                />
 
-            {/* <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setImage(e.target.files[0])}
-              style={{ margin: '1rem 0' }}
-            /> */}
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  label="Skill"
+                  name="skill"
+                  value={skill}
+                  onChange={(e) => setSkill(e.target.value)}
+                />
 
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  label="Experience"
+                  name="exp"
+                  value={exp}
+                  onChange={(e) => setExp(e.target.value)}
+                />
+              </>
+            )}
 
 
             <Button

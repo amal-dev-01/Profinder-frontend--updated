@@ -14,6 +14,7 @@ import SendIcon from '@mui/icons-material/Send';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { jwtDecode } from 'jwt-decode';
 import { List, ListItem, ListItemAvatar, ListItemText } from '@mui/material';
+import Navbar from '../Navbar/Navbar';
 
 
 const PostDetailsView = () => {
@@ -175,6 +176,7 @@ const PostDetailsView = () => {
 
   return (
     <div>
+      <Navbar/>
       <div style={{ display: "flex" }}>
         <Grid container spacing={2} style={{ padding: "2%" }} >
           <Grid item xs={8} sm={6}>

@@ -1,23 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import React, { useEffect, useState } from 'react'
 import axiosInstance from '../../features/axios';
-import { useNavigate } from 'react-router-dom';
+import { Card, CardContent, Typography } from '@mui/material';
 import Navbar from '../Navbar/Navbar';
 
-const UserBookingList = () => {
-
+const ProfessionalConfirmated = () => {
     const [booking,setBooking]=useState()
     const authToken = localStorage.getItem('authtoken');
-const navigate = useNavigate()
+
 
     const bookingList = async () => {
         try {
-          const response = await axiosInstance.get('book/bookings/', {
+          const response = await axiosInstance.get('book/professional_bookings_accepted/', {
             headers: {
               Authorization: `Bearer ${authToken}`,
               'Content-Type': 'application/json',
@@ -43,17 +36,15 @@ const navigate = useNavigate()
     
     
     
-    
-
 
   return (
-    <div style={{width:"100%"}}>
-            <Navbar/>
-
-  {booking && booking.length > 0 ? (
+    <div>
+    <Navbar/>
+    <div style={{width:"100%",padding:"20px"}}>
+          {booking && booking.length > 0 ? (
     booking.map((book) => (
       <div key={book.id}>
-        <Card sx={{marginBottom:2}}>
+        <Card sx={{ marginBottom: 5 }}>
       <CardContent sx={{textAlign:'left'}}>
         <Typography>Professional :   {book.professional_name}</Typography>
         <Typography>User :{book.user_name}</Typography>
@@ -61,14 +52,17 @@ const navigate = useNavigate()
         <Typography>Address: {book.address}</Typography>
         <Typography>date: {book.booking_date}</Typography>
         <Typography>Is_paid: {book.is_paid}</Typography>
-        <Typography>status: {book.status}</Typography>
+        <Typography style={{ color: book.status === 'confirmed' ? 'green' : 'black' }}>
+            status: {book.status}
+            </Typography>
         <Typography>job: {book.job}</Typography>
         </Typography>
 
       </CardContent>
-      <CardActions>
-        <Button size="small" onClick={()=>navigate(`/userconfirmation/${book.id}`)}>Confirmation</Button>
-    </CardActions>
+      {/* <CardActions>
+        <Button size="small">Share</Button>
+        <Button size="small">Learn More</Button>
+    </CardActions> */}
     </Card>
     </div>
   ))
@@ -78,8 +72,8 @@ const navigate = useNavigate()
       )}
 
       
-    </div>
+    </div></div>
   )
 }
 
-export default UserBookingList
+export default ProfessionalConfirmated

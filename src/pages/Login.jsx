@@ -62,12 +62,28 @@ export default function Login() {
 
   };
 
-  useEffect(() => {
+useEffect(() => {
+  const redirectToPath = () => {
     if (userInfo) {
-      navigate('/home');
-      window.location.reload()
+      if (userInfo.is_user || userInfo.is_professional) {
+        navigate('/home');
+      } else if (userInfo.is_admin) {
+        navigate('/admin');
+      } else {
+        // Handle other roles or scenarios as needed
+        navigate('/');
+      }
+      window.location.reload();
+    } else {
+      navigate('/');
     }
-  }, [userInfo]);
+  };
+
+  // Call the function without reloading the window
+  redirectToPath();
+}, [userInfo]);
+  
+  
 
   return (
     <Container component="main" maxWidth="lg">
@@ -76,7 +92,7 @@ export default function Login() {
           <Typography>AppLOgo</Typography>
 
         </Box><Box>
-          <Button onClick={() => navigate('/register')}>Register</Button>
+          <Button onClick={() => navigate('/userselection')}>Register</Button>
         </Box>
       </Box>
 

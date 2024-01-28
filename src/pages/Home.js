@@ -4,35 +4,36 @@ import { logout, userProfile, } from '../features/authAction';
 import { useNavigate } from 'react-router-dom';
 import Loading from './Loading';
 import { ConnectWithoutContact, Group, Public } from '@mui/icons-material';
-import { Card, CardContent, Typography, Grid, Container, Button } from '@mui/material';
+import { Card, CardContent, Typography, Grid, Container, Button, CardMedia } from '@mui/material';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import './Home.css'
 import Carousel from 'react-bootstrap/Carousel';
 import Footer from './Footer';
 import Services from './Sevices';
-import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
 import Navbar from './Navbar/Navbar';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import styled, { keyframes } from 'styled-components';
-
+import { useSpring, animated } from 'react-spring';
 
 
 const useStyles = makeStyles((theme) => ({
+
+
   homeMain: {
-  
     padding: theme.spacing(2),
+     display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent:'center',
 
   },
 
   badge: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent:'center',
+    // display: 'flex',
+    // flexDirection: 'column',
+    // alignItems: 'center',
+    // justifyContent:'center',
     borderRadius: theme.spacing(3), 
     width: '100%',
     maxWidth: 350,
@@ -58,7 +59,10 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '40px',
     
     },
+  
   },
+
+
 }));
 
 
@@ -68,30 +72,13 @@ const Home = () => {
   const navigate = useNavigate()
   const { loading, userInfo, authtoken } = useSelector((state) => state.user)
 
+  // console.log(userInfo.is_user);
 
-//   const moveRight = keyframes`
-//   0% {
-//     transform: translateX(100%);
-//   }
-//   100% {
-//     transform: translateX(-100%);
-//   }
-// `;
-
-// const MarqueeContainer = styled.div`
-//   display: flex;
-//   overflow: hidden;
-//   width: 100%;
-// `;
-
-
-// const MarqueeImage = styled.img`
-//   width: 300px;
-//   height: 250px; 
-//   margin-right: 16px; 
-//   animation: ${moveRight} 20s linear infinite; 
-// `;
-
+  const animatedProps = useSpring({
+    opacity: 1,
+    from: { opacity: 0 },
+    config: { tension: 300, friction: 10 },
+  });
 
   const getUserProfile = async () => {
     try {
@@ -154,14 +141,13 @@ const Home = () => {
 
   ];
 
-  // const images = [
-  //   'https://images.unsplash.com/photo-1682687218608-5e2522b04673?q=80&w=1975&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //   'https://images.unsplash.com/photo-1705951501021-a89160066251?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //   'https://images.unsplash.com/photo-1706108439810-f887f16a22bf?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //   'https://images.unsplash.com/photo-1682695795557-17447f921f79?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //   'https://images.unsplash.com/photo-1699870798609-b5c3e7e5900d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzNXx8fGVufDB8fHx8fA%3D%3D',
-  //   // 'https://images.unsplash.com/photo-1705798543468-5b951da25e1e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzOHx8fGVufDB8fHx8fA%3D%3D'
-  // ];
+  const images = [
+   'https://www.hammerandbrush.com.au/wp-content/uploads/2021/09/house-painters-at-work-5662561-1024x683.jpg',
+   'https://a2bpureclean.com/wp-content/uploads/2023/09/img9.jpg',
+   'https://miro.medium.com/v2/resize:fit:940/1*eVyKEOz3zS398Gs0lzbM-w.jpeg'
+   ,'https://www.autotrainingcentre.com/wp-content/uploads/2021/07/July-21-automotive-school.jpg'
+  ];
+
 
 
 
@@ -171,66 +157,37 @@ const Home = () => {
   return (
     <div>
         <Navbar/>
-        <Grid container className={classes.homeMain}>
-      <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-        <Paper className={classes.badge}>
-          Method is used to create a shallow
-        </Paper>
+        <Grid container className={classes.homeMain} >
         <Grid container sx={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column'}}>
+        <Paper className={classes.badge} style={{fontFamily:'cursive'}}>
+          Connect with professionals
+        </Paper>
       <Typography className={classes.heroHeading} sx={{ fontSize: '70px', fontFamily: 'Roboto',padding:'20px'}}>
       Discover Top Professionals Near You      </Typography>
       <Typography sx={{fontSize:'20px',fontFamily:"cursive"}}> Explore Limitless Opportunities, Forge Powerful Connections, and Grow Together in Your Professional Journey</Typography>
       <Button sx={{backgroundColor:'black',color:'white',borderRadius:'30px',textTransform: 'none',padding:'15px',marginTop:"25px" ,paddingLeft:"25px",paddingRight:'25px'}}>Get  Started</Button>
-      </Grid>
-      </Grid>
-      </Grid>
-      {/* <MarqueeContainer>
+
+      <Grid container spacing={4} xs={12} style={{ paddingTop:50 }}>
       {images.map((image, index) => (
-        <MarqueeImage key={index} src={image} alt={`Image ${index + 1}`} />
+        <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
+          <Card>
+            <CardMedia component="img" image={image} height={250} style={{ width: "100%" }} />
+          </Card>
+        </Grid>
       ))}
-    </MarqueeContainer> */}
+    </Grid>
+
+      </Grid>
+
+
+
+
+      </Grid>
+
+
 
 
       <div className='main-div'>
-        <div className='homemainbody' >
-          <div className='homebodyleft'>
-            {/* <h1 className='hometxt'>Connect with Professionals</h1> */}
-
-            {/* <p className='sub-text animated-text'>Explore opportunities, network, and grow together,</p> */}
-
-  
-
-
-          </div>
-          <div className='homebodyright'  >
-            <Carousel  >
-              <Carousel.Item interval={500}>
-                <img
-                  className="img-h   d-block w-100"
-                  src="https://i.imgur.com/HohsnRY.jpg"
-                  alt="First slide"
-                />
-
-              </Carousel.Item>
-              <Carousel.Item interval={500}>
-                <img
-                  className="img-h   d-block w-100"
-                  src="https://img.freepik.com/free-photo/professional-cleaning-service-people-working-together-office_23-2150520596.jpg?w=996&t=st=1705910463~exp=1705911063~hmac=0d5a039632da570be9e05a5373a02e177806d08b06b229939b8fcae96140a571"
-                  alt="First slide"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="img-h   d-block w-100"
-                  src="https://www.bs3services.co.uk/wp-content/uploads/Electrical-Working-Banner.jpg"
-                  alt="First slide"
-                />
-              </Carousel.Item>
-            </Carousel>
-          </div  >
-
-        </div>
-
 
         <div className='homecardsmain'>
           <div className='homecards'>

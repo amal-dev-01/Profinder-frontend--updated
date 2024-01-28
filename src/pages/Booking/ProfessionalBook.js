@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axiosInstance from '../../features/axios';
 import { Card, CardContent, Typography } from '@mui/material';
+import Navbar from '../Navbar/Navbar';
 
 const ProfessionalBook = () => {
     const [booking,setBooking]=useState()
@@ -38,10 +39,12 @@ const ProfessionalBook = () => {
 
   return (
     <div>
+    <Navbar/>
+    <div style={{width:"100%",padding:"20px"}}>
           {booking && booking.length > 0 ? (
     booking.map((book) => (
       <div key={book.id}>
-        <Card sx={{ maxWidth: 345 }}>
+        <Card sx={{ marginBottom: 5 }}>
       <CardContent sx={{textAlign:'left'}}>
         <Typography>Professional :   {book.professional_name}</Typography>
         <Typography>User :{book.user_name}</Typography>
@@ -49,7 +52,9 @@ const ProfessionalBook = () => {
         <Typography>Address: {book.address}</Typography>
         <Typography>date: {book.booking_date}</Typography>
         <Typography>Is_paid: {book.is_paid}</Typography>
-        <Typography>status: {book.status}</Typography>
+        <Typography style={{ color: book.status === 'confirmed' ? 'green' : 'black' }}>
+  status: {book.status}
+</Typography>
         <Typography>job: {book.job}</Typography>
         </Typography>
 
@@ -67,7 +72,7 @@ const ProfessionalBook = () => {
       )}
 
       
-    </div>
+    </div></div>
   )
 }
 

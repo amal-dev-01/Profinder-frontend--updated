@@ -25,6 +25,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import SendIcon from '@mui/icons-material/Send';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Grid } from '@mui/material';
+import Navbar from './Navbar/Navbar';
 
 const PostList = () => {
   const [expandedState, setExpandedState] = useState({});
@@ -62,7 +63,7 @@ const navigate=useNavigate()
           'Content-Type': 'application/json',
         },
       });
-
+console.log(response.data);
       setPosts(response.data);
       setLoading(false);
     } catch (error) {
@@ -172,31 +173,28 @@ const navigate=useNavigate()
 
 
   return (
-<div style={{ backgroundImage: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)' }}>
+<div>      <Navbar/>
+
       <h2>Explore</h2>
-      <Grid container spacing={2}>
-      <Grid item xs={12} sm={4}>
+      {/* <Grid container spacing={1}> */}
+      <Grid item xs={12} sm={4}  style={{ display: 'flex', justifyContent: 'center' ,alignContent:"center"}}>
       <div style={{ overflowY: 'auto', maxHeight: '100vh' }}>
 
       {loading && <p>Loading posts...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {!loading && !error && (
 
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Card sx={{ maxWidth: 400 }}>
+        <div>
+          <Card sx={{ maxWidth: 600 }}>
             {posts.map((post) => (
               <div key={post.id}>
                 <CardHeader
                   avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="user">
-                      {post.user}
+                    <Avatar sx={{ bgcolor: red[500] }} aria-label="user" onClick={()=>navigate(`userview/${post.user}`)}>
+                   src={post.professionalprofile?.image ? `${baseURL}${post.professionalprofile.image}`:''}
                     </Avatar>
                   }
-                  action={
-                    <IconButton aria-label="settings" onClick={()=>navigate(`userview/${post.user}`)}>
-                      <MoreVertIcon />
-                    </IconButton>
-                  }
+              
                   title={post.title}
                   subheader={post.created_at}
                 />
@@ -296,14 +294,9 @@ const navigate=useNavigate()
   
       </div>
       </Grid>
-      {window.innerWidth >= 700 ? (
-    <Grid item xs={12} sm={8}>
-      <Outlet />
-    </Grid>
-  ) : null}
 
 
-      </Grid>
+      {/* </Grid> */}
     </div>
   );
 };

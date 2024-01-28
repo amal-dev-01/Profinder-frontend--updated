@@ -51,7 +51,8 @@ const FilterBooking = () => {
   }
 
   return (
-    <div>
+    <div style={{width:'60%'}}>
+
         <h2>Bookings</h2>
 
     <FormControl fullWidth>
@@ -75,7 +76,7 @@ const FilterBooking = () => {
 </FormControl>
 {bookings.length > 0 ? (
   bookings.map((booking) => (
-    <Card key={booking.id} sx={{ maxWidth: 345 }}>
+    <Card key={booking.id} style={{padding:'20px'}}>
       <CardContent sx={{ textAlign: 'left' }}>
         <Typography>User: {booking.user_name}</Typography>
         <Typography>Date: {booking.booking_date}</Typography>

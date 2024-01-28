@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../../features/axios';
 import { getUserProfile } from '../../features/authAction';
 import { baseURL } from '../../features/baseUrl';
+import Navbar from '../Navbar/Navbar';
 
 export default function UserView() {
 
@@ -52,8 +53,8 @@ export default function UserView() {
 
     return (
         <div>
-            {/* <Sidebar></Sidebar> */}
-            <div style={{ display: "flex", justifyContent: "center", marginTop: "2%" }}>
+            <Navbar/>
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "2%" }}>
                 <Card sx={{ maxWidth: 900 }}>
 
                     <CardActionArea>
@@ -69,7 +70,13 @@ export default function UserView() {
                             }}>
                             <CardMedia
                                 component="img"
-                                src={user.userprofile && user.userprofile.image ? `${baseURL}${user.userprofile.image}` : ''}
+                                src={
+                                    user.userprofile?.image
+                                      ? `${baseURL}${user.userprofile.image}`
+                                      : user.professionalprofile?.image
+                                      ? `${baseURL}${user.professionalprofile.image}`
+                                      : ''
+                                  }
                                 alt="user image"
                                 className="mt-4 mb-2 img-thumbnail"
                                 sx={{ marginLeft: 5 }}

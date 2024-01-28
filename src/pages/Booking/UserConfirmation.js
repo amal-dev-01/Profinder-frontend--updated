@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axiosInstance from '../../features/axios';
 import { useParams } from 'react-router-dom';
 import { Card, CardContent, Typography,CardActions,Button ,Modal,TextField} from '@mui/material';
+import Navbar from '../Navbar/Navbar';
 
 
 const UserConfirmation = () => {
@@ -82,8 +83,9 @@ const UserConfirmation = () => {
     
     
   return (
-    <div>
-        <Card sx={{ maxWidth: 345 }}>
+    <div style={{width:'100%'}}>
+      <Navbar/>
+        <Card>
         <CardContent sx={{ textAlign: 'left' }}>
   <Typography>Professional: {booking?.professional_name}</Typography>
   <Typography>User: {booking?.user_name}</Typography>

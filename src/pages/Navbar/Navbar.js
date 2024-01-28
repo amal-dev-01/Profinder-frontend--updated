@@ -20,6 +20,16 @@ import './Navbar.css'
 
 function Navbar() {
 
+  // let logoutUser = () => {
+  //   const shouldLogout = window.confirm("Are you sure you want to log out?");
+  //   if (shouldLogout) {
+  //     // SetAuthToken(null);
+  //     // SetUser(null);
+  //     localStorage.removeItem('authToken');
+  //     nav('/');
+  //   }
+  // }
+
   const dispatch = useDispatch()
 
   const { userInfo } = useSelector((state) => state.user)
@@ -27,14 +37,48 @@ function Navbar() {
     try {
       dispatch(logout());
       navigate('/');
+      window.location.reload()
     } catch (error) {
       console.error('Logout failed:', error);
     }
   };
   const navigate = useNavigate()
-  const settings = [<Typography onClick={() => navigate('/profile')}>Profile</Typography>,
-  <Typography onClick={handleLogout}>LogOut</Typography>
+  const settings = [
+    <Typography key="profile" onClick={() => navigate('/profile')}>Profile</Typography>,
+    <Typography key="logout" onClick={handleLogout}>Logout</Typography>,
+    userInfo.is_user ? (
+      <Typography key="booking" onClick={() => navigate('/userbooking')} sx={{ textTransform: 'none' }}>
+        Booking
+      </Typography>
+    ) : (
+
+      <Typography key="appointment" onClick={() => navigate('/probooking')} sx={{ textTransform: 'none' }}>
+        All Appointment
+      </Typography>
+      
+    ),  userInfo.is_user ? (
+null    ) : (
+
+      <Typography key="Newappointment" onClick={() => navigate('/probookingaccept')} sx={{ textTransform: 'none' }}>
+      New Appointment
+    </Typography>
+     )
+     ,  userInfo.is_user ? (
+      null    ) : (
+      
+            <Typography key="confirm" onClick={() => navigate('/probookingcompleted')} sx={{ textTransform: 'none' }}>
+            confirmed Appointment
+          </Typography>
+           )
+           ,  userInfo.is_user ? (
+            null    ) : (
+            
+                  <Typography key="payment" onClick={() => navigate('/checkout')} sx={{ textTransform: 'none' }}>
+                  Payment
+                </Typography>
+                 )
   ];
+  
 
   const pages = [
     <Typography onClick={() => navigate('/home')} sx={{ textTransform: 'none' }}>Home</Typography>,

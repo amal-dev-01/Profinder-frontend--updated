@@ -34,10 +34,11 @@ const BookList = () => {
     }, [authToken])
 
   return (
-    <div>
-      <List sx={{ width: '100%', maxWidth: 500, bgcolor: 'background.paper' }}>
+    <div style={{width:'80%'}}>
+
+      <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                 {booking.map((book) => (
-                    <Card key={book.id}  sx={{ marginBottom: 2 }}>
+                    <Card key={book.id}  sx={{ marginBottom: 2  }}>
                         <ListItem alignItems="flex-start">
                             <ListItemAvatar>
                                 {/* <Avatar alt="User" src={user?.userprofile?.image} /> */}

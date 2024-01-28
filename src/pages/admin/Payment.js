@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axiosInstance from '../../features/axios'
+import { Card,Typography } from '@mui/material'
 
 const Payment = () => {
     const authToken = localStorage.getItem('authtoken')   
@@ -24,21 +25,22 @@ const Payment = () => {
 
 
   return (
-    <div>
+    <div style={{width:'80%'}}>
               <ul>
 
         {pay.map((item, index) => (
-          <li key={index}>
-            <p>ID: {item.id}</p>
-            <p>Month: {item.month}</p>
-            <p>Year: {item.year}</p>
-            <p>Amount: {item.amount}</p>
-            <p>Total Amount: {item.total_amount}</p>
-            <p>status: {item.status}</p>
-            <p>stripe_id: {item.stripe_id}</p>
+          <Card key={index} sx={{marginBottom:3,textAlign:'left',padding:'10px'}}>
+            <div style={{padding:'2%'}}>
+            <Typography>ID: {item.id}</Typography>
+            <Typography>Month: {item.month}</Typography>
+            <Typography>Year: {item.year}</Typography>
+            <Typography>Amount: {item.amount}</Typography>
+            <Typography>Total Amount: {item.total_amount}</Typography>
+            <Typography>status: {item.status}</Typography>
+            <Typography>stripe_id: {item.stripe_id}</Typography>
+            </div>
 
-
-          </li>
+          </Card>
         ))}
       </ul>
 

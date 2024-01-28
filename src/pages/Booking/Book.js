@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Container, Typography } from '@mui/material';
 import axiosInstance from '../../features/axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import Navbar from '../Navbar/Navbar';
 
 function Book() {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ function Book() {
 
   return (
     <Container component="main" maxWidth="xs">
-
+<Navbar/>
       <Typography variant="h5" align="center" gutterBottom>
         Booking Form
       </Typography>

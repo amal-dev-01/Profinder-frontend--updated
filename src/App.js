@@ -35,6 +35,9 @@ import BookList from './pages/admin/BookList';
 import { BookDetails } from './pages/admin/BookDetails';
 import FilterBooking from './pages/admin/FilterBooking';
 import Payment from './pages/admin/Payment';
+import AdminPage from './pages/admin/AdminPage';
+import UserSelection from './pages/Login/UserSelection';
+import ProfessionalRegister from './pages/Login/ProfessionalRegister';
 
 function App() {
   return (
@@ -47,13 +50,8 @@ function App() {
           <Route path='/chat' element={<ChatArea />} />
           <Route path='/checkout' element={<CheckOut />} />
           <Route path='/success' element={<PaymentSucess />} />
-          <Route path='/booking/:id/:username' element={<Book />} />
-          <Route path='/userbooking' element={<UserBookingList />} />
-          <Route path='/probooking' element={<ProfessionalBook />} />
-          <Route path='/probookingaccept' element={<ProfessionalBookAccept/>} />
-          <Route path='/probookingcomplete' element={<ProfessionalCompletion/>} />
-          <Route path='/userconfirmation/:id' element={<UserConfirmation/>} />
 
+          <Route path='/admin' element={<AdminPage/>} >
           <Route path='/admin/userlist' element={<ListUser/>} />
           <Route path='/admin/professionallist' element={<ListProfessionals/>} />
           <Route path='/admin/profile/:id' element={<Profileview/>} />
@@ -61,47 +59,48 @@ function App() {
           <Route path='/admin/booking/details/:id' element={<BookDetails/>} />
           <Route path='/admin/booking/filter' element={<FilterBooking/>} />
           <Route path='/admin/booking/payment' element={<Payment/>} />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+          </Route>
 
 
           {/* <Route path="start" element={<Conversations />} /> */}
 
 
 
-
+          <Route path='/booking/:id/:username' element={<Book />} />
           <Route path='/postlist' element={<PostList />}>
-            <Route path='/postlist/:id' element={<PostDetailsView />} />
+          <Route path='/postlist/:id' element={<PostDetailsView />} />
           </Route>
           
-          <Route path='postlist/userview/:id' element={<UserView />} />
-          <Route path='/postdetails/:id' element={<PostDetailsView />} />
           <Route path='userview/:id' element={<UserView />} />
           <Route path='/userprofile/:id' element={<UserProfile />} />
+
+          <Route path='/userbooking' element={<UserBookingList />} />
+          <Route path='/userconfirmation/:id' element={<UserConfirmation/>} />
+          <Route path='/probooking' element={<ProfessionalBook />} />
+          <Route path='/probookingcompleted' element={<ProfessionalCompletion />} />
+
+          <Route path='/probookingaccept' element={<ProfessionalBookAccept/>} />
+          <Route path='/probookingcomplete' element={<ProfessionalCompletion/>} />
+
+          <Route path='postlist/userview/:id' element={<UserView />} />
+          <Route path='/postdetails/:id' element={<PostDetailsView />} />
           <Route path='/editpost/:id' element={<EditPost />} />
+       
           <Route path='/' element={<Login />} />
           <Route path='/otp/:email' element={<Otppage />} />
           <Route path='/home' element={<Home />} />
-          <Route path='/editprofile' element={<EditUserProfile />} />
           <Route path='/addpost' element={<CreatePost />} />
-          <Route path='/register' element={<UserRegister />} />
-
+          <Route path='/editprofile' element={<EditUserProfile />} />
           <Route path='/chating/:roomName' element={<Chat />} />
 
           <Route path='/profile' element={<ProfileView />} />
+
+          <Route path='/userselection' element={<UserSelection />} />
+          <Route path='/register' element={<UserRegister />} />
+          <Route path='/professionalregister' element={<ProfessionalRegister />} />
+
+
+
 
 
 
