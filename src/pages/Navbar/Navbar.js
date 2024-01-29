@@ -20,16 +20,6 @@ import './Navbar.css'
 
 function Navbar() {
 
-  // let logoutUser = () => {
-  //   const shouldLogout = window.confirm("Are you sure you want to log out?");
-  //   if (shouldLogout) {
-  //     // SetAuthToken(null);
-  //     // SetUser(null);
-  //     localStorage.removeItem('authToken');
-  //     nav('/');
-  //   }
-  // }
-
   const dispatch = useDispatch()
 
   const { userInfo } = useSelector((state) => state.user)
@@ -45,6 +35,7 @@ function Navbar() {
   const navigate = useNavigate()
   const settings = [
     <Typography key="profile" onClick={() => navigate('/profile')}>Profile</Typography>,
+    <Typography key="profile" onClick={() => navigate('/chatlist')}>Chat</Typography>,
     <Typography key="logout" onClick={handleLogout}>Logout</Typography>,
     userInfo.is_user ? (
       <Typography key="booking" onClick={() => navigate('/userbooking')} sx={{ textTransform: 'none' }}>
@@ -82,8 +73,8 @@ null    ) : (
 
   const pages = [
     <Typography onClick={() => navigate('/home')} sx={{ textTransform: 'none' }}>Home</Typography>,
-    <Typography onClick={() => navigate('/chat')} sx={{ textTransform: 'none' }}>Chat</Typography>,
-    <Typography onClick={() => navigate('/chat')} sx={{ textTransform: 'none' }}>Services</Typography>,
+    // <Typography onClick={() => navigate('/chat')} sx={{ textTransform: 'none' }}>Chat</Typography>,
+    // <Typography onClick={() => navigate('/chat')} sx={{ textTransform: 'none' }}>Services</Typography>,
     <Typography onClick={() => navigate('/postlist')} sx={{ textTransform: 'none' }}>Post</Typography>,
 
   ];

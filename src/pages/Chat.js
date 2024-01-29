@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import axiosInstance from "../features/axios";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import SendIcon from '@mui/icons-material/Send';
-import { IconButton } from '@mui/material';
+import { Grid, IconButton, Card, CardContent, Typography,useMediaQuery, useTheme } from '@mui/material';
 
 import './Chat.css'
 
@@ -15,6 +15,9 @@ function Chat() {
   const { roomName } = useParams();
   const WS_URL = `ws://localhost:8000/ws/chat/${roomName}/`;
   const CHAT_HISTORY_ENDPOINT = `/chat/chat_history/${roomName}/`;
+
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
 
 
@@ -118,55 +121,75 @@ function Chat() {
 
 
   useEffect(() => {
-
-      
     messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
-    
+
   }, [messages]);
 
+  const getOtherUsername = (roomName) => {
+    const [user1, user2] = roomName.split('__');
+    const authToken = localStorage.getItem('authtoken')
+    const requestedUser = authToken ? jwtDecode(authToken).username : null;
+    return requestedUser === user1 ? user2 : user1;
+  };
 
 
 
   return (
-    <div class="chat-container">
-      <div class="chat-header">Chat</div>
-      <div class="message-container" ref={messagesEndRef}>
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className={`message ${message.username === username ? "sent" : "received"}`}
-          >
-            <div className="message-username">{message.username}:</div>
-            <div className="message-content">{message.message}</div>
-            <div className="message-timestamp">
-              {new Date(message.timestamp).toLocaleString()}
-            </div>
-            <div className="delete-button">
-              {message.username === username && (
-                <IconButton aria-label="delete" onClick={() => handleDelete(message.id)}>
-                  <DeleteOutlineOutlinedIcon />
-                </IconButton>
-              )}
-            </div>
 
+    <div>
+      <Grid container justify="center" alignItems="center">
+        <Card className="chat-card">
+          <div><Card
+            sx={{ marginBottom: 2 }}>
+            <CardContent sx={{ textAlign: 'left' }}>
+              <Typography>{getOtherUsername(roomName)}</Typography>
+            </CardContent>
+          </Card></div>
+          <div className="messages-container"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+            }}>
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                style={{
+                  width: isSmallScreen ? '80%' : '25%',
+                  margin: '10px',
+                  padding: '10px',
+                  borderRadius: '8px',
+                  backgroundColor: message.username === username ? '#e1ffc7' : '#f0f0f0',
+                  alignSelf: message.username === username ? 'flex-end' : 'flex-start',
+                  textAlign: 'left',
+                }}>
+                <div className="message-username">{message.username}</div>
+                <div>{message.message}</div>
+                <div className="message-timestamp">{new Date(message.timestamp).toLocaleString()} {message.username === username && (
+                  <IconButton aria-label="delete" onClick={() => handleDelete(message.id)}>
+                    <DeleteOutlineOutlinedIcon />
+                  </IconButton>
+                )}</div>
+                <div>
+
+                </div>
+              </div>
+            ))}
+            <div ref={messagesEndRef} />
           </div>
 
-        ))}
-      </div>
-      
-      <form onSubmit={handleSubmit} className="message-form"  >
-        <input
-          type="text"
-          className="input-box"
-          placeholder="Type a message..."
-          value={message}
-          onChange={(event) => setMessage(event.target.value)}
-        />
-        <IconButton aria-label="send" type="submit">
-          <SendIcon />
-        </IconButton>
-
-      </form>
+          <form onSubmit={handleSubmit} className="message-form">
+            <input
+              type="text"
+              placeholder="Type a message..."
+              value={message}
+              onChange={(event) => setMessage(event.target.value)}
+            />
+            <IconButton aria-label="send" type="submit">
+              <SendIcon />
+            </IconButton>
+          </form>
+        </Card>
+      </Grid>
     </div>
 
   );

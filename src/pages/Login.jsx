@@ -26,6 +26,8 @@ const defaultTheme = createTheme();
 
 export default function Login() {
   const navigate = useNavigate()
+
+  const authToken = localStorage.getItem('authtoken')
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -62,28 +64,54 @@ export default function Login() {
 
   };
 
-useEffect(() => {
-  const redirectToPath = () => {
-    if (userInfo) {
+
+  useEffect(() => {
+    if (authToken) {
       if (userInfo.is_user || userInfo.is_professional) {
         navigate('/home');
-      } else if (userInfo.is_admin) {
+
+      }
+
+      else if (userInfo.is_admin) {
         navigate('/admin');
-      } else {
-        // Handle other roles or scenarios as needed
+      }
+
+      else {
         navigate('/');
+
       }
       window.location.reload();
-    } else {
-      navigate('/');
-    }
-  };
 
-  // Call the function without reloading the window
-  redirectToPath();
-}, [userInfo]);
-  
-  
+    }
+    else {
+      navigate('/');
+
+    }
+
+  }, [authToken,userInfo])
+
+  // useEffect(() => {
+  //   const redirectToPath = () => {
+  //     if (userInfo) {
+  //       if (userInfo.is_user || userInfo.is_professional) {
+  //         navigate('/home');
+  //       } else if (userInfo.is_admin) {
+  //         navigate('/admin');
+  //       } else {
+  //         // Handle other roles or scenarios as needed
+  //         navigate('/');
+  //       }
+  //       window.location.reload();
+  //     } else {
+  //       navigate('/');
+  //     }
+  //   };
+
+  //   // Call the function without reloading the window
+  //   redirectToPath();
+  // }, [userInfo]);
+
+
 
   return (
     <Container component="main" maxWidth="lg">

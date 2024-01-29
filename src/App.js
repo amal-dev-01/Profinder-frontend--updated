@@ -38,6 +38,7 @@ import Payment from './pages/admin/Payment';
 import AdminPage from './pages/admin/AdminPage';
 import UserSelection from './pages/Login/UserSelection';
 import ProfessionalRegister from './pages/Login/ProfessionalRegister';
+import ChatList from './pages/ChatList';
 
 function App() {
   return (
@@ -47,7 +48,7 @@ function App() {
           <Route path='/postview/:id' element={<PostView />} />
           <Route path='/temp' element={<UserPost />} />
           <Route path='/like' element={<Like />} />
-          <Route path='/chat' element={<ChatArea />} />
+
           <Route path='/checkout' element={<CheckOut />} />
           <Route path='/success' element={<PaymentSucess />} />
 
@@ -64,6 +65,13 @@ function App() {
 
           {/* <Route path="start" element={<Conversations />} /> */}
 
+          {/* <Route path='/chatlist' element={<ChatList />} />
+          <Route path='/chat/:username' element={<ChatArea />}></Route> */}
+
+        <Route path='/chatlist' element={<ChatList />}>
+        <Route path='/chatlist/chat/:username' element={<ChatArea />}></Route>
+          <Route path='/chatlist/chating/:roomName' element={<Chat />} />
+      </Route>
 
 
           <Route path='/booking/:id/:username' element={<Book />} />
@@ -91,7 +99,6 @@ function App() {
           <Route path='/home' element={<Home />} />
           <Route path='/addpost' element={<CreatePost />} />
           <Route path='/editprofile' element={<EditUserProfile />} />
-          <Route path='/chating/:roomName' element={<Chat />} />
 
           <Route path='/profile' element={<ProfileView />} />
 

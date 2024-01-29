@@ -15,6 +15,7 @@ export default function UserView() {
     const user = useSelector(state => state.user.getUser);
 
     const authToken = localStorage.getItem('authtoken');
+    console.log(authToken);
     const dispatch = useDispatch();
 
     const postList = async (pk) => {
@@ -135,7 +136,7 @@ export default function UserView() {
                                         <div>
                                             <Button onClick={() => navigate()}>Follow</Button>
                                             <Button onClick={() => navigate(`/booking/${id}/${user.username}`)}>Book</Button>
-                                            <Button onClick={() => navigate()}>Chat</Button>
+                                            <Button onClick={() => navigate(`/chatlist/chat/${user.username}`)}>Chat</Button>
 
                                         </div>
                                     </div>
