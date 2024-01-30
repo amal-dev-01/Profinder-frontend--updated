@@ -1,40 +1,54 @@
 import React, { useEffect, useState } from 'react';
-import './UserProfile.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getUserProfile } from '../features/authAction';
+import axios from 'axios';
 
-const UserProfile = () => {
-  const {id}=useParams()
-  const navigate = useNavigate();
-  const user = useSelector(state => state.user.getUser);
-  const dispatch = useDispatch();
-  
-  const authToken = localStorage.getItem('authtoken')
+function App() {
+  const [notifications, setNotifications] = useState([]);
+
   useEffect(() => {
-    dispatch(getUserProfile(id)); 
-  }, [dispatch, id]);
+    const notifySocket = new WebSocket('ws://localhost:8000/ws/notify/');
+
+    notifySocket.onopen = () => {
+      console.log('Socket successfully connected.');
+    };
+
+    notifySocket.onclose = () => {
+      console.log('Socket closed unexpectedly');
+    };
+
+    // notifySocket.onmessage = (event) => {
+    //   const data = JSON.parse(event.data);
+    //   setNotifications((prevNotifications) => [...prevNotifications, data.message]);
+    // };
+  //   notifySocket.onmessage = function (event) {
+  //     const data = JSON.parse(event.data);
+  //     const message = data.message;
+  //     console.log('hi',data);
+  //     setNotifications((prevNotifications) => [...prevNotifications, data.message]);
+  // };
+  notifySocket.onmessage = function (event) {
+    const data = JSON.parse(event.data);
+    console.log('Received WebSocket message:', data);
+    const message = data.message;
+    console.log("kkkkkkkkkkkk");
+    console.log('mdals',message);
+
+    setNotifications((prevNotifications) => [...prevNotifications, message]);
+  };
   
-  console.log('datatttt',user);
 
-  if (!user) {
-    return <div>Loading...</div>; }
+  
+  }, []);
 
-    return (
-<div className="parentcard">  
-  <div className="outercard">
-    
-    {/* <img src='https://images.unsplash.com/photo-1683009427513-28e163402d16?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' alt="Background" /> */}
-  </div>
-      <p>Email: {user.email}</p>
-      <p>Phone: {user.phone}</p>
-</div>
-
-
-
+  return (
+    <div className="App">
+      <h1>Welcome to Notify</h1>
+      <ul>
+        {notifications.map((notification, index) => (
+          <li key={index}>{notification}</li>
+        ))}
+      </ul>
+    </div>
   );
-};
+}
 
-
-
-export default UserProfile;
+export default App;

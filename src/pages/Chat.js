@@ -7,6 +7,7 @@ import axiosInstance from "../features/axios";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import SendIcon from '@mui/icons-material/Send';
 import { Grid, IconButton, Card, CardContent, Typography,useMediaQuery, useTheme } from '@mui/material';
+// import { Container, Row, Col, Card, Badge, Button, Form } from 'react-bootstrap';
 
 import './Chat.css'
 
@@ -196,4 +197,87 @@ function Chat() {
 }
 
 export default Chat;
+
+
+// import React from "react";
+// import './Chat.css';
+
+// const MemberCard = ({ name, message, time, avatarSrc, unreadCount }) => (
+//   <li className="p-2 border-bottom" style={{ borderBottom: '1px solid rgba(255,255,255,.3) !important' }}>
+//     <a href="#!" className="d-flex justify-content-between link-light">
+//       <div className="d-flex flex-row">
+//         <img src={avatarSrc} alt="avatar" className="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60" />
+//         <div className="pt-1">
+//           <p className="fw-bold mb-0">{name}</p>
+//           <p className="small text-white">{message}</p>
+//         </div>
+//       </div>
+//       <div className="pt-1">
+//         <p className="small text-white mb-1">{time}</p>
+//         {unreadCount > 0 && <span className="badge bg-danger float-end">{unreadCount}</span>}
+//       </div>
+//     </a>
+//   </li>
+// );
+
+// const MessageCard = ({ name, time, message, avatarSrc }) => (
+//   <li className="d-flex justify-content-between mb-4">
+//     <img src={avatarSrc} alt="avatar" className="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60" />
+//     <div className="card mask-custom">
+//       <div className="card-header d-flex justify-content-between p-3" style={{ borderBottom: '1px solid rgba(255,255,255,.3)' }}>
+//         <p className="fw-bold mb-0">{name}</p>
+//         <p className="text-light small mb-0"><i className="far fa-clock"></i> {time}</p>
+//       </div>
+//       <div className="card-body">
+//         <p className="mb-0">{message}</p>
+//       </div>
+//     </div>
+//   </li>
+// );
+
+// function Chat() {
+//   return (
+//     <div>
+//       <section className="gradient-custom">
+//         <div className="container py-5">
+//           <div className="row">
+//             {/* Member List */}
+//             <div className="col-md-6 col-lg-5 col-xl-5 mb-4 mb-md-0">
+//               <h5 className="font-weight-bold mb-3 text-center text-white">Member</h5>
+//               <div className="card mask-custom">
+//                 <div className="card-body">
+//                   <ul className="list-unstyled mb-0">
+//                     <MemberCard name="John Doe" message="Hello, Are you there?" time="Just now" avatarSrc="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-8.webp" unreadCount={1} />
+//                     {/* Add more member cards as needed */}
+//                   </ul>
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* Message List */}
+//             <div className="col-md-6 col-lg-7 col-xl-7">
+//               <ul className="list-unstyled text-white">
+//                 <MessageCard name="Brad Pitt" time="12 mins ago" message="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." avatarSrc="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp" />
+               
+//               </ul>
+
+              
+//               <li className="mb-3">
+           
+//               </li>
+//             </div>
+//           </div>
+//         </div>
+//         <div className="form-outline form-white">
+//                   <textarea className="form-control" id="textAreaExample3" rows="4"></textarea>
+//                   <label className="form-label" htmlFor="textAreaExample3">Message</label>
+//               <button type="button" className="btn btn-light btn-lg btn-rounded float-end">Send</button>
+//                 </div>
+//       </section>
+//     </div>
+//   );
+// }
+
+// export default Chat;
+
 

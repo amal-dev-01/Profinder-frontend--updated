@@ -13,6 +13,8 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
+import { logout } from '../features/authAction';
+import { useDispatch } from 'react-redux';
 
 const drawerWidth = 240;
 
@@ -64,6 +66,7 @@ export default function Sidebar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate()
+  const dispatch =useDispatch()
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -71,6 +74,15 @@ export default function Sidebar() {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+  const handleLogout = async () => {
+    try {
+      dispatch(logout());
+      navigate('/');
+      window.location.reload()
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
   };
 
   return (
@@ -116,7 +128,9 @@ export default function Sidebar() {
 <Button onClick={()=>navigate('/admin/professionallist')}>Professional</Button>     
 <Button onClick={()=>navigate('/admin/bookings')}>Booking</Button> 
 <Button onClick={()=>navigate('/admin/booking/filter')}>Booking Filter</Button>
-<Button onClick={()=>navigate('/admin/booking/payment')}>Payment</Button>     
+<Button onClick={()=>navigate('/admin/booking/payment')}>Payment</Button>
+<Button onClick={handleLogout}>Logout</Button>    
+
    </Drawer>
       <Main open={open}>
         <DrawerHeader />

@@ -39,6 +39,7 @@ import AdminPage from './pages/admin/AdminPage';
 import UserSelection from './pages/Login/UserSelection';
 import ProfessionalRegister from './pages/Login/ProfessionalRegister';
 import ChatList from './pages/ChatList';
+import User from './pages/UserProfile';
 
 function App() {
   return (
@@ -80,7 +81,7 @@ function App() {
           </Route>
           
           <Route path='userview/:id' element={<UserView />} />
-          <Route path='/userprofile/:id' element={<UserProfile />} />
+          <Route path='/userprofile' element={<User />} />
 
           <Route path='/userbooking' element={<UserBookingList />} />
           <Route path='/userconfirmation/:id' element={<UserConfirmation/>} />

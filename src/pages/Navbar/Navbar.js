@@ -36,6 +36,8 @@ function Navbar() {
   const settings = [
     <Typography key="profile" onClick={() => navigate('/profile')}>Profile</Typography>,
     <Typography key="profile" onClick={() => navigate('/chatlist')}>Chat</Typography>,
+    <Typography key="profile" onClick={() => navigate('/userprofile')}>noti</Typography>,
+
     <Typography key="logout" onClick={handleLogout}>Logout</Typography>,
     userInfo.is_user ? (
       <Typography key="booking" onClick={() => navigate('/userbooking')} sx={{ textTransform: 'none' }}>
