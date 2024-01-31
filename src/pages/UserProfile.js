@@ -1,54 +1,92 @@
+// NotificationComponent.js
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-function App() {
-  const [notifications, setNotifications] = useState([]);
+const NotificationComponent = () => {
 
-  useEffect(() => {
-    const notifySocket = new WebSocket('ws://localhost:8000/ws/notify/');
+  const authToken = localStorage.getItem('authtoken');
+  const navigate = useNavigate()
+    const [notifications, setNotifications] = useState([]);
+    const [socket, setSocket] = useState(null);
 
-    notifySocket.onopen = () => {
-      console.log('Socket successfully connected.');
+
+    useEffect(() => {
+        const newSocket = new WebSocket(`ws://localhost:8000/ws/notify/?token=${authToken}&Content-Type=application/json`);
+    
+        
+        setSocket(newSocket);
+        newSocket.onopen = () => {
+          console.log("WebSocket connected");
+          fetchNotifications();
+        }
+        newSocket.onclose = () => console.log("WebSocket disconnected");
+        
+        return () => {
+          newSocket.close();
+        };
+      }, []);
+      
+      useEffect(() => {
+        if (!socket) return;
+        
+        const handleSocketMessage = (event) => {
+          const notification = JSON.parse(event.data);
+          setNotifications((prevNotifications) => [...prevNotifications, notification]);
+
+        };
+
+        socket.onmessage = handleSocketMessage;
+
+        // return () => {
+        //   socket.onmessage = null;
+        // };
+    }, [socket]);
+
+    const fetchNotifications = async () => {
+        try {
+          const response = await axios.get('http://localhost:8000/book/notification/', {
+            headers: {
+                Authorization: `Bearer ${authToken}`,
+            },
+        });
+                    setNotifications(response.data);
+
+        } catch (error) {
+            console.error('Error fetching notifications:', error);
+        }
     };
 
-    notifySocket.onclose = () => {
-      console.log('Socket closed unexpectedly');
-    };
+    useEffect(() => {
+        fetchNotifications();
+    }, []); 
 
-    // notifySocket.onmessage = (event) => {
-    //   const data = JSON.parse(event.data);
-    //   setNotifications((prevNotifications) => [...prevNotifications, data.message]);
-    // };
-  //   notifySocket.onmessage = function (event) {
-  //     const data = JSON.parse(event.data);
-  //     const message = data.message;
-  //     console.log('hi',data);
-  //     setNotifications((prevNotifications) => [...prevNotifications, data.message]);
-  // };
-  notifySocket.onmessage = function (event) {
-    const data = JSON.parse(event.data);
-    console.log('Received WebSocket message:', data);
-    const message = data.message;
-    console.log("kkkkkkkkkkkk");
-    console.log('mdals',message);
+    return (
+        <div>
+            <h2>Notifications</h2>
+            <ul>
+                {notifications.map((notification, index) => (
+                  <li key={index} onClick={() => navigate('/probookingaccept')}>{notification.message}</li>
+                ))}
+            </ul>
+        </div>
+    );
+};
 
-    setNotifications((prevNotifications) => [...prevNotifications, message]);
-  };
-  
-
-  
-  }, []);
-
-  return (
-    <div className="App">
-      <h1>Welcome to Notify</h1>
-      <ul>
-        {notifications.map((notification, index) => (
-          <li key={index}>{notification}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default App;
+export default NotificationComponent;
+          // newSocket.addEventListener('open', (event) => {
+          //   console.log('WebSocket connection opened:', event);
+          // });
+          
+          // newSocket.addEventListener('message', (event) => {
+          //   console.log('WebSocket message received:', event.data);
+          // });
+          
+          // newSocket.addEventListener('close', (event) => {
+          //   console.log('WebSocket connection closed:', event);
+          // });
+          
+          // newSocket.addEventListener('error', (event) => {
+          //   console.error('WebSocket error:', event);
+          // });

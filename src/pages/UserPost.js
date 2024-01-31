@@ -1,61 +1,82 @@
-import React from 'react';
-import { Container, Card, CardContent, CardMedia, Grid, Typography, Divider } from '@mui/material';
-import { Avatar, Facebook, Twitter, Instagram, Edit } from '@mui/icons-material';
+// Import React and Material-UI components
+import React, { useState } from "react";
+import { Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { red } from "@material-ui/core/colors";
+// import FavoriteIcon from "@material-ui/icons/Favorite";
+// import ShareIcon from "@material-ui/icons/Share";
+// import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-const UserPost = () => {
+// Define custom styles for the card component
+const useStyles = makeStyles((theme) => ({
+  root: {
+    maxWidth: 345,
+    margin: "auto",
+    marginBottom: theme.spacing(2),
+  },
+  media: {
+    height: 0,
+    paddingTop: "56.25%", // 16:9
+  },
+  avatar: {
+    backgroundColor: red[500],
+  },
+}));
+
+// Define a custom component for displaying a post
+const Post = () => {
+  const classes = useStyles();
+  const [liked, setLiked] = useState(false);
+
+  // Dummy data for the post
+  const post = {
+    user: "John Doe",
+    date: "January 31, 2024",
+    image: "https://example.com/image.jpg",
+    caption: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  };
+
+  // Define a function to toggle the like status
+  const handleLike = () => {
+    setLiked(!liked);
+  };
+
   return (
-    <section className="vh-100" style={{ backgroundColor: '#f4f5f7' }}>
-      <Container className="py-5 h-100">
-        <Grid container justifyContent="center" alignItems="center" className="h-100">
-          <Grid item lg={6} mb={4} mb-lg={0}>
-            <Card style={{ borderRadius: '.5rem' }}>
-              <Grid container>
-                <Grid item md={4} className="gradient-custom text-center text-white" style={{ borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem' }}>
-                  <CardMedia component="img" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="Avatar" className="img-fluid my-5" style={{ width: 80 }} />
-                  <Typography variant="h5">Marie Horwitz</Typography>
-                  <Typography variant="subtitle1">Web Designer</Typography>
-                  <Edit className="mb-5" />
-                </Grid>
-                <Grid item md={8}>
-                  <CardContent>
-                    <Typography variant="h6">Information</Typography>
-                    <Divider variant="middle" className="mt-0 mb-4" />
-                    <Grid container paddingTop={1}>
-                      <Grid item xs={6} mb={3}>
-                        <Typography variant="h6">Email</Typography>
-                        <Typography variant="body2" color="textSecondary">info@example.com</Typography>
-                      </Grid>
-                      <Grid item xs={6} mb={3}>
-                        <Typography variant="h6">Phone</Typography>
-                        <Typography variant="body2" color="textSecondary">123 456 789</Typography>
-                      </Grid>
-                    </Grid>
-                    <Typography variant="h6">Projects</Typography>
-                    <Divider variant="middle" className="mt-0 mb-4" />
-                    <Grid container paddingTop={1}>
-                      <Grid item xs={6} mb={3}>
-                        <Typography variant="h6">Recent</Typography>
-                        <Typography variant="body2" color="textSecondary">Lorem ipsum</Typography>
-                      </Grid>
-                      <Grid item xs={6} mb={3}>
-                        <Typography variant="h6">Most Viewed</Typography>
-                        <Typography variant="body2" color="textSecondary">Dolor sit amet</Typography>
-                      </Grid>
-                    </Grid>
-                    <div style={{ display: 'flex', justifyContent: 'start' }}>
-                      <a href="#!"><Facebook fontSize="large" className="me-3" /></a>
-                      <a href="#!"><Twitter fontSize="large" className="me-3" /></a>
-                      <a href="#!"><Instagram fontSize="large" /></a>
-                    </div>
-                  </CardContent>
-                </Grid>
-              </Grid>
-            </Card>
-          </Grid>
-        </Grid>
-      </Container>
-    </section>
+    <Card className={classes.root}>
+      <CardHeader
+        avatar={
+          <Avatar aria-label="user" className={classes.avatar}>
+            {post.user.charAt(0)}
+          </Avatar>
+        }
+        action={
+          <IconButton aria-label="settings">
+            {/* <MoreVertIcon /> */}
+          </IconButton>
+        }
+        title={post.user}
+        subheader={post.date}
+      />
+      <CardMedia
+        className={classes.media}
+        image={post.image}
+        title={post.caption}
+      />
+      <CardContent>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {post.caption}
+        </Typography>
+      </CardContent>
+      <CardActions disableSpacing>
+        <IconButton aria-label="add to favorites" onClick={handleLike}>
+          {/* <FavoriteIcon color={liked ? "secondary" : "inherit"} /> */}
+        </IconButton>
+        <IconButton aria-label="share">
+          {/* <ShareIcon /> */}
+        </IconButton>
+      </CardActions>
+    </Card>
   );
-}
+};
 
-export default UserPost;
+export default Post;

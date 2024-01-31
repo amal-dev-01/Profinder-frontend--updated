@@ -14,15 +14,85 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { logout } from '../../features/authAction';
+import {  logout } from '../../features/authAction';
 import './Navbar.css'
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import { useEffect } from 'react';
+import axiosInstance from '../../features/axios';
+import { useState } from 'react';
 
 
 function Navbar() {
 
+  const [socket, setSocket] = useState(null);
+  const [notificationCount, setNotificationCount] = useState(0);
+  const authToken = localStorage.getItem('authtoken');
+
+  useEffect(() => {
+    const newSocket = new WebSocket(`ws://localhost:8000/ws/notify/?token=${authToken}&Content-Type=application/json`);
+    setSocket(newSocket);
+    newSocket.onopen = () => {
+      console.log("WebSocket connected");
+      fetchNotifications();
+    };
+
+    newSocket.onclose = () => console.log("WebSocket disconnected");
+    // return () => {
+    //   newSocket.close();
+    // };
+  // }, [socket]);
+}, []);
+
+
+  useEffect(() => {
+    const handleSocketMessage = () => {
+      setNotificationCount((prevCount) => prevCount + 1);
+    };
+
+    if (socket) {
+      socket.onmessage = handleSocketMessage;
+      fetchNotifications();
+
+
+      return () => {
+        socket.onmessage = null;
+      };
+    }
+  }, [socket]);
+
+  
+  const fetchNotifications = async () => {
+    try {
+      const response = await axiosInstance.get('book/notification/', {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+      setNotificationCount(response.data.length);
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+    }
+  };
+
+
+
+
+
+// useEffect(() => {
+//   fetchNotifications();
+// }, [socket]); 
+
   const dispatch = useDispatch()
 
   const { userInfo } = useSelector((state) => state.user)
+  // const notificationCount = useSelector((state) => state.user.notificationCount);
+  // useEffect(() => {
+  //   dispatch(fetchNot());
+  // }, [dispatch]);
+
+
+  // console.log(notificationCount,'llll');
+
   const handleLogout = async () => {
     try {
       dispatch(logout());
@@ -192,6 +262,15 @@ null    ) : (
               </Button>
             ))}
           </Box>
+          <IconButton onClick={() => navigate('/userprofile')}>
+        <NotificationsActiveIcon />
+        {notificationCount && (
+          <sup style={{ fontWeight:"25px", color: 'red',fontSize:"15px" }}>{notificationCount}</sup>
+        )}
+        {/*  */}
+          </IconButton>
+          {/* {notificationCount && <p>Notification Count: {notificationCount.length}</p>} */}
+
           <div className="searchbar">
     <div className="searchbar-wrapper">
         <div className="searchbar-left">

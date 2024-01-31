@@ -39,7 +39,7 @@ function Book() {
       console.log(response);
       
       if (response.status === 201) {
-        navigate('/home');
+        navigate('/userprofile');
       } else {
       }
     } catch (error) {

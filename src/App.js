@@ -40,6 +40,7 @@ import UserSelection from './pages/Login/UserSelection';
 import ProfessionalRegister from './pages/Login/ProfessionalRegister';
 import ChatList from './pages/ChatList';
 import User from './pages/UserProfile';
+import Post from './pages/UserPost';
 
 function App() {
   return (
@@ -47,7 +48,7 @@ function App() {
       <Router>
         <Routes>
           <Route path='/postview/:id' element={<PostView />} />
-          <Route path='/temp' element={<UserPost />} />
+          <Route path='/temp' element={<Post />} />
           <Route path='/like' element={<Like />} />
 
           <Route path='/checkout' element={<CheckOut />} />

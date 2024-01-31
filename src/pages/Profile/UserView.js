@@ -143,7 +143,7 @@ export default function UserView() {
                             </Typography>
                             <Box sx={{ width: '100%', padding: 5 }}>
                                     {posts.map((post) => (
-                                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 } } key={post.id}>
                                             <Grid item xs={6}>
                                                 <img
                                                     src={`${baseURL}${post.post}`}

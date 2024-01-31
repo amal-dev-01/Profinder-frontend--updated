@@ -109,7 +109,7 @@ export default function ProfileView() {
                                 </Typography>
                                 <Box sx={{ width: '100%', padding: 5 }}>
                                     {posts.map((post) => (
-                                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} key={post.id}>
                                             <Grid item xs={6}>
                                                 <img
                                                     src={`${baseURL}${post.post}`}
@@ -181,9 +181,6 @@ export default function ProfileView() {
                                             <Typography>Job :     {userProfileData.professionalprofile.job}</Typography>
                                             <Typography>Skill :     {userProfileData.professionalprofile.skills}</Typography>
                                             <Typography>Experience :     {userProfileData.professionalprofile.experience}</Typography>
-
-
-
                                         </div>
                                         <div>
                                             <Button onClick={() => navigate('/editprofile')}>Edit</Button>
@@ -193,7 +190,7 @@ export default function ProfileView() {
                                 </Typography>
                                 <Box sx={{ width: '100%', padding: 5 }}>
                                     {posts.map((post) => (
-                                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} key={post.id}>
                                             <Grid item xs={6}>
                                                 <img
                                                     src={`${baseURL}${post.post}`}

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { jwtDecode } from 'jwt-decode';
-import {  getUserPost, getUserProfile, login, logout, userPost, userProfile } from './authAction'
+import {   getUserPost, getUserProfile, login, logout, userPost, userProfile } from './authAction'
 
 const authtoken = localStorage.getItem('authtoken')
   ? localStorage.getItem('authtoken')
@@ -21,6 +21,8 @@ const initialState = {
   userPost :null,
   getUser:null,
   getPost:null,
+  notificationCount:null,
+  notification:[],
 }
 
 
@@ -122,6 +124,33 @@ const authSlice = createSlice({
       state.error = payload;
     })
 
+    // .addCase(fetchNotifications.pending, (state) => {
+    //   state.loading = true;
+    // })
+    // .addCase(fetchNotifications.fulfilled, (state, { payload }) => {
+    //   state.loading = false;
+    //   console.log('kkkkkkkkkkkkkkkkkkk',payload);
+    //   state.notificationCount = payload;
+    // })
+    // .addCase(fetchNotifications.rejected, (state, { payload }) => {
+    //   state.loading= false;
+    //   state.error = payload;
+    // })
+
+    // .addCase(fetchNot.pending, (state) => {
+    //   state.loading = true;
+    // })
+    // .addCase(fetchNot.fulfilled, (state, { payload }) => {
+    //   state.loading = false;
+    //   state.notification = payload;
+    //   console.log('kkkkkkkkkkkkkkkkkkk',payload);
+    //   state.notificationCount = payload;
+    // })
+    // .addCase(fetchNotifications.rejected, (state, { payload }) => {
+    //   state.loading= false;
+    //   state.error = payload;
+    // })
+
 
     
   },
@@ -131,7 +160,7 @@ export default authSlice.reducer
 export const selectAuthToken = (state) => state.user.authtoken;
 export const selectUserProfile = (state) => state.user.userProfile;
 export const selectUserPost= (state) => state.user.userPost;
-// export const selectGetUserProfile= (state) => state.user.getUserProfile;
+
 
 
 

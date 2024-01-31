@@ -37,7 +37,7 @@ const PostList = () => {
   const [liked, setLiked] = useState(false);
   const [commented, setCommented] = useState([]);
   const [commentText, setCommentText] = useState('');
-const navigate=useNavigate()
+  const navigate = useNavigate()
 
   const user = authToken ? jwtDecode(authToken) : null;
 
@@ -63,7 +63,7 @@ const navigate=useNavigate()
           'Content-Type': 'application/json',
         },
       });
-console.log(response.data);
+      console.log(response.data);
       setPosts(response.data);
       setLoading(false);
     } catch (error) {
@@ -173,126 +173,129 @@ console.log(response.data);
 
 
   return (
-<div>      <Navbar/>
+    <div>      <Navbar />
 
       <h2>Explore</h2>
       {/* <Grid container spacing={1}> */}
-      <Grid item xs={12} sm={4}  style={{ display: 'flex', justifyContent: 'center' ,alignContent:"center"}}>
-      <div style={{ overflowY: 'auto', maxHeight: '100vh' }}>
+      <Grid item xs={12} sm={4} style={{ display: 'flex', justifyContent: 'center', alignContent: "center" }}>
+        {/* <div style={{ overflowY: 'auto', maxHeight: '100vh' }}> */}
+          <div>
 
-      {loading && <p>Loading posts...</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {!loading && !error && (
+          {loading && <p>Loading posts...</p>}
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          {!loading && !error && (
 
-        <div>
-          <Card sx={{ maxWidth: 600 }}>
-            {posts.map((post) => (
-              <div key={post.id}>
-                <CardHeader
-                  avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="user" onClick={()=>navigate(`userview/${post.user}`)}>
-                   src={post.professionalprofile?.image ? `${baseURL}${post.professionalprofile.image}`:''}
-                    </Avatar>
-                  }
-              
-                  title={post.title}
-                  subheader={post.created_at}
-                />
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={`${baseURL}${post.post}`}
-                onClick={() => navigate(`/postlist/${post.id}`)}
-                  alt="No post"
-                />
-                <CardContent>
-                  <Typography variant="body2" color="text.secondary">
-                    {showFullDescription[post.id]
-                      ? post.description
-                      : `${post.description.slice(0, 50)}...`}
-                    {!showFullDescription[post.id] && (
-                      <Tooltip title="Read More">
-                        <IconButton
-                          aria-label="read more"
-                          onClick={() => handleReadMoreClick(post.id)}
-                        >
-                          <ReadMoreIcon />
+            <div>
+              <Card sx={{ maxWidth: 600 }}>
+                {posts.map((post) => (
+                  <div key={post.id}>
+                    <CardHeader
+                      avatar={
+
+                        <Avatar onClick={() => navigate(`userview/${post.user}`)}
+                          alt="Travis Howard" src={`${baseURL}${post.professionalprofile?.image}`} />
+
+                      }
+
+                      title={post.title}
+                      subheader={post.created_at}
+                    />
+                    <CardMedia
+                      component="img"
+                      height="400"
+                      width="500"
+                      image={`${baseURL}${post.post}`}
+                      onClick={() => navigate(`/postlist/${post.id}`)}
+                      alt="No post"
+                    />
+                    <CardContent>
+                      <Typography variant="body2" color="text.secondary">
+                        {showFullDescription[post.id]
+                          ? post.description
+                          : `${post.description.slice(0, 50)}...`}
+                        {!showFullDescription[post.id] && (
+                          <Tooltip title="Read More">
+                            <IconButton
+                              aria-label="read more"
+                              onClick={() => handleReadMoreClick(post.id)}
+                            >
+                              <ReadMoreIcon />
+                            </IconButton>
+                          </Tooltip>
+                        )}
+                      </Typography>
+                    </CardContent>
+                    <CardActions disableSpacing>
+                      {isUserLiked(post) ? (
+                        <IconButton onClick={() => postLike(post.id)}
+                          sx={{ fontSize: { sm: 27 }, color: 'red', cursor: 'pointer' }}>
+                          <FavoriteIcon />
                         </IconButton>
-                      </Tooltip>
-                    )}
-                  </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                  {isUserLiked(post) ? (
-                    <IconButton onClick={() => postLike(post.id)}
-                      sx={{ fontSize: { sm: 27 }, color: 'red', cursor: 'pointer' }}>
-                      <FavoriteIcon />
-                    </IconButton>
-                  ) : (
-                    <IconButton onClick={() => postLike(post.id)}
-                      sx={{ fontSize: { sm: 27 }, cursor: 'pointer' }}>
+                      ) : (
+                        <IconButton onClick={() => postLike(post.id)}
+                          sx={{ fontSize: { sm: 27 }, cursor: 'pointer' }}>
 
-                      <FavoriteBorderIcon
+                          <FavoriteBorderIcon
 
-                      />
-                    </IconButton>
-                  )}
-                  {post.likes.length}
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                  <Tooltip title={expandedState[post.id] ? 'Collapse' : 'Expand'}>
-                    <div>
-                      <IconButton
-                        aria-label="show more"
-                        onClick={() => handleExpandClick(post.id)}
-                      >
-                        <CommentIcon />
+                          />
+                        </IconButton>
+                      )}
+                      {post.likes.length}
+                      <IconButton aria-label="share">
+                        <ShareIcon />
                       </IconButton>
-                      {post.comments.length}
-                    </div>
-                  </Tooltip>
-                </CardActions>
-                <Collapse in={expandedState[post.id]} timeout="auto" unmountOnExit>
-                  <CardContent>
-                    <Typography paragraph>
-                      <TextField
-                        label="Add a comment"
-                        variant="standard"
-                        size="small"
-                        style={{ width: "80%" }}
-                        value={commentText}
-                        onChange={handleCommentChange}
-                      />
-                      <IconButton onClick={() => postComment(post.id)}><SendIcon /></IconButton>
-                    </Typography>
-                    <Typography paragraph>Comments</Typography>
-                    <Typography paragraph>
-                      {post.comments.map((comment) => (
-                        <div className='comment-list' key={comment.id}>
-                          <Box sx={{ m: 'auto', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center', textAlign: "left" }}>
-                            <Avatar>{comment.user.username[0].toUpperCase()}</Avatar>
-                            <div style={{ marginLeft: '8px', display: 'flex', flexDirection: 'column' }}>
-                              <Typography variant="body1">
-                                <b>{comment.user.username}</b> {comment.text}
-                              </Typography>
-                              <Typography variant="caption" color="textSecondary">
-                                {new Date(comment.created_at).toLocaleString()}{renderDeleteButton(comment)}
-                              </Typography>
-                            </div>
-                          </Box>
+                      <Tooltip title={expandedState[post.id] ? 'Collapse' : 'Expand'}>
+                        <div>
+                          <IconButton
+                            aria-label="show more"
+                            onClick={() => handleExpandClick(post.id)}
+                          >
+                            <CommentIcon />
+                          </IconButton>
+                          {post.comments.length}
                         </div>
-                      ))}
-                    </Typography>
-                  </CardContent>
-                </Collapse>
-                </div>
-            ))}
-          </Card>
+                      </Tooltip>
+                    </CardActions>
+                    <Collapse in={expandedState[post.id]} timeout="auto" unmountOnExit>
+                      <CardContent>
+                        <Typography paragraph>
+                          <TextField
+                            label="Add a comment"
+                            variant="standard"
+                            size="small"
+                            style={{ width: "80%" }}
+                            value={commentText}
+                            onChange={handleCommentChange}
+                          />
+                          <IconButton onClick={() => postComment(post.id)}><SendIcon /></IconButton>
+                        </Typography>
+                        <Typography paragraph>Comments</Typography>
+                        <Typography paragraph>
+                          {post.comments.map((comment) => (
+                            <div className='comment-list' key={comment.id}>
+                              <Box sx={{ m: 'auto', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center', textAlign: "left" }}>
+                                <Avatar>{comment.user.username[0].toUpperCase()}</Avatar>
+                                <div style={{ marginLeft: '8px', display: 'flex', flexDirection: 'column' }}>
+                                  <Typography variant="body1">
+                                    <b>{comment.user.username}</b> {comment.text}
+                                  </Typography>
+                                  <Typography variant="caption" color="textSecondary">
+                                    {new Date(comment.created_at).toLocaleString()}{renderDeleteButton(comment)}
+                                  </Typography>
+                                </div>
+                              </Box>
+                            </div>
+                          ))}
+                        </Typography>
+                      </CardContent>
+                    </Collapse>
+                  </div>
+                ))}
+              </Card>
+            </div>
+          )}
+
         </div>
-      )}
-  
-      </div>
       </Grid>
 
 
