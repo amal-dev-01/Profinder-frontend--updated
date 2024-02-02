@@ -41,7 +41,8 @@ import ProfessionalRegister from './pages/Login/ProfessionalRegister';
 import ChatList from './pages/ChatList';
 import User from './pages/UserProfile';
 import Post from './pages/UserPost';
-
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+// import "@fortawesome/fontawesome-free/css/all.min.css";
 function App() {
   return (
     <div className="App">
@@ -78,7 +79,7 @@ function App() {
 
           <Route path='/booking/:id/:username' element={<Book />} />
           <Route path='/postlist' element={<PostList />}>
-          <Route path='/postlist/:id' element={<PostDetailsView />} />
+          <Route path='/postlist/:id' element={<PostView />} />
           </Route>
           
           <Route path='userview/:id' element={<UserView />} />

@@ -26,6 +26,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import Navbar from './Navbar/Navbar';
+import './PostList.css'
 
 const PostList = () => {
   const [expandedState, setExpandedState] = useState({});
@@ -173,21 +174,20 @@ const PostList = () => {
 
 
   return (
-    <div>      <Navbar />
+    <div >
+      <Navbar />
 
-      <h2>Explore</h2>
-      {/* <Grid container spacing={1}> */}
-      <Grid item xs={12} sm={4} style={{ display: 'flex', justifyContent: 'center', alignContent: "center" }}>
-        {/* <div style={{ overflowY: 'auto', maxHeight: '100vh' }}> */}
-          <div>
-
+      <Grid item xs={12} sm={12}>
+        <div>
           {loading && <p>Loading posts...</p>}
           {error && <p style={{ color: 'red' }}>{error}</p>}
           {!loading && !error && (
+              <div style={{display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",backgroundColor: "#f8f7f4"}}>
+              <Typography variant='h3' fontFamily='cursive'>Explore</Typography>
 
-            <div>
-              <Card sx={{ maxWidth: 600 }}>
-                {posts.map((post) => (
+           
+              {posts.map((post) => (
+                <Card className='cards'>
                   <div key={post.id}>
                     <CardHeader
                       avatar={
@@ -202,11 +202,10 @@ const PostList = () => {
                     />
                     <CardMedia
                       component="img"
-                      height="400"
-                      width="500"
                       image={`${baseURL}${post.post}`}
                       onClick={() => navigate(`/postlist/${post.id}`)}
                       alt="No post"
+                      style={{ width: "100%",height:"500px",objectFit:'cover'}}
                     />
                     <CardContent>
                       <Typography variant="body2" color="text.secondary">
@@ -260,8 +259,8 @@ const PostList = () => {
                       <CardContent>
                         <Typography paragraph>
                           <TextField
-                            label="Add a comment"
-                            variant="standard"
+                            label="Add comments"
+                            variant="outlined"
                             size="small"
                             style={{ width: "80%" }}
                             value={commentText}
@@ -272,10 +271,11 @@ const PostList = () => {
                         <Typography paragraph>Comments</Typography>
                         <Typography paragraph>
                           {post.comments.map((comment) => (
+                            
                             <div className='comment-list' key={comment.id}>
-                              <Box sx={{ m: 'auto', display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center', textAlign: "left" }}>
+                              <Box sx={{ m: 'auto', display: 'flex',  marginTop: 2, justifyContent: 'left', textAlign: "left",marginLeft:"25px",backgroundColor:"#f8f7f4",borderRadius:"25px" ,padding:"10px",width: "80%"}}>
                                 <Avatar>{comment.user.username[0].toUpperCase()}</Avatar>
-                                <div style={{ marginLeft: '8px', display: 'flex', flexDirection: 'column' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column',padding:"10px" }}>
                                   <Typography variant="body1">
                                     <b>{comment.user.username}</b> {comment.text}
                                   </Typography>
@@ -290,8 +290,8 @@ const PostList = () => {
                       </CardContent>
                     </Collapse>
                   </div>
-                ))}
-              </Card>
+                </Card>
+              ))}
             </div>
           )}
 
@@ -299,7 +299,6 @@ const PostList = () => {
       </Grid>
 
 
-      {/* </Grid> */}
     </div>
   );
 };
