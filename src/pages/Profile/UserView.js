@@ -11,7 +11,7 @@ export default function UserView() {
 
     const navigate = useNavigate();
     const { id } = useParams()
-    const [posts,setPosts]=useState([])
+    const [posts, setPosts] = useState([])
     const user = useSelector(state => state.user.getUser);
 
     const authToken = localStorage.getItem('authtoken');
@@ -21,32 +21,33 @@ export default function UserView() {
     const postList = async (pk) => {
         try {
             const response = await axiosInstance.get(`user_post/${pk}/`,
-              {},
-              {
-                headers: {
-                  Authorization: `Bearer ${authToken}`,
-                  'Content-Type': 'application/json',
-                },
-              }
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
             );
-        
+
             if (response) {
-              setPosts(response.data)
-          }
-         }
-          catch (error) {
+                setPosts(response.data)
+            }
+        }
+        catch (error) {
             console.error(error);
-          }
+        }
     };
 
+    console.log(posts);
 
-    
+
 
     useEffect(() => {
         if (authToken) {
             dispatch(getUserProfile(id));
             postList(id)
-                }
+        }
     }, [authToken, dispatch, id]);
     if (!user) {
         return <div>Loading...</div>;
@@ -54,8 +55,8 @@ export default function UserView() {
 
     return (
         <div>
-            <Navbar/>
-        <div style={{ display: "flex", justifyContent: "center", marginTop: "2%" }}>
+            <Navbar />
+            <div style={{ display: "flex", justifyContent: "center", marginTop: "2%" }}>
                 <Card sx={{ maxWidth: 900 }}>
 
                     <CardActionArea>
@@ -73,11 +74,11 @@ export default function UserView() {
                                 component="img"
                                 src={
                                     user.userprofile?.image
-                                      ? `${baseURL}${user.userprofile.image}`
-                                      : user.professionalprofile?.image
-                                      ? `${baseURL}${user.professionalprofile.image}`
-                                      : ''
-                                  }
+                                        ? `${baseURL}${user.userprofile.image}`
+                                        : user.professionalprofile?.image
+                                            ? `${baseURL}${user.professionalprofile.image}`
+                                            : ''
+                                }
                                 alt="user image"
                                 className="mt-4 mb-2 img-thumbnail"
                                 sx={{ marginLeft: 5 }}
@@ -93,7 +94,7 @@ export default function UserView() {
                             <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center" }}>
                                 <div>
                                     <Typography>Posts</Typography>
-                                 <Typography>{posts.length}</Typography>
+                                    <Typography>{posts.length}</Typography>
                                 </div>
                                 <div>
                                     <Typography>Followers</Typography>
@@ -104,20 +105,20 @@ export default function UserView() {
                                     <Typography>15</Typography>
                                 </div>
                             </div>
-                            <Typography variant="body2" color="text.secondary" sx={{ width: 900, textAlign: "left" }} >
+                            <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 900, textAlign: "left" }} >
                                 <div style={{ backgroundColor: "#f8f9fa", padding: "2%", textAlign: "left", alignItems: "center", marginRight: "3%" }}>
                                     <h4>About</h4>
                                     <div>
                                         <div>
-                                        {user.first_name && (
+                                            {user.first_name && (
                                                 <Typography>Name: {user.first_name}  {user.last_name}</Typography>
                                             )}
-                                             {user.username && (
+                                            {user.username && (
                                                 <Typography>Username: {user.username}  {user.last_name}</Typography>
                                             )}
                                             <Typography>Email: {user.email}</Typography>
 
-                                            {user.userprofile && (
+                                            {user.userprofile ? (
                                                 <>
                                                     {user.userprofile.bio && (
                                                         <Typography>Bio: "{user.userprofile.bio}"</Typography>
@@ -126,36 +127,68 @@ export default function UserView() {
                                                         <Typography>Address: {user.userprofile.address}</Typography>
                                                     )}
                                                 </>
+                                            ) : (
+                                                <>
+                                                    {user.professionalprofile && (
+                                                        <>
+                                                            {user.professionalprofile.job && (
+                                                                <Typography>Job: {user.professionalprofile.job}</Typography>
+                                                            )}
+                                                            {user.professionalprofile.experience && (
+                                                                <Typography>Experience: {user.professionalprofile.experience}</Typography>
+                                                            )}
+                                                            {user.professionalprofile.skills && (
+                                                                <Typography>Skills: {user.professionalprofile.skills}</Typography>
+                                                            )}
+                                                            {user.professionalprofile.bio && (
+                                                                <Typography>Bio: {user.professionalprofile.bio}</Typography>
+                                                            )}
+                                                            {user.professionalprofile.address && (
+                                                                <Typography>Address: {user.professionalprofile.address}</Typography>
+                                                            )}
+                                                        </>
+
+                                                    )}
+                                                </>
                                             )}
+
                                             {user.phone && (
                                                 <Typography>Phone: {user.phone}</Typography>
                                             )}
                                         </div>
 
-                                            </div>
+                                    </div>
+                                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+
                                         <div>
                                             <Button onClick={() => navigate()}>Follow</Button>
-                                            <Button onClick={() => navigate(`/booking/${id}/${user.username}`)}>Book</Button>
                                             <Button onClick={() => navigate(`/chatlist/chat/${user.username}`)}>Chat</Button>
-
                                         </div>
+                                        <div>
+                                        {user.professionalprofile ? (
+                                        <>
+                                            <Button onClick={() => navigate(`/booking/${id}/${user.username}`)}>Book</Button>
+                                        </>
+                                    ) : null}
+                                 </div>
                                     </div>
+                                </div>
                             </Typography>
-                            <Box sx={{ width: '100%', padding: 5 }}>
+                            <Box sx={{ width: '100%', padding: 2 }}>
+                                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                                     {posts.map((post) => (
-                                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 } } key={post.id}>
-                                            <Grid item xs={6}>
-                                                <img
-                                                    src={`${baseURL}${post.post}`}
-                                                    alt="posted images"
-                                                    onClick={() => navigate(`/postdetails/${post.id}`)}
-                                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                                />
-                                            </Grid>
+                                        <Grid item xs={6} key={post.id}>
+                                            <img
+                                                src={`${baseURL}${post.post}`}
+                                                alt="posted images"
+                                                onClick={() => navigate(`/postdetails/${post.id}`)}
+                                                style={{ width: '100%', height: '70%', objectFit: 'cover' }}
+                                            />
                                         </Grid>
                                     ))}
-                                </Box>
-                        </CardContent>
+                                </Grid>
+                            </Box> 
+                         </CardContent>
                     </CardActionArea>
                 </Card>
             </div>

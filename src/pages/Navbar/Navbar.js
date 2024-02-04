@@ -4,6 +4,8 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import {TextField} from '@mui/material';
+
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
@@ -20,6 +22,12 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import { useEffect } from 'react';
 import axiosInstance from '../../features/axios';
 import { useState } from 'react';
+// import Toolbar from '@mui/material/Toolbar';
+import InputBase from '@mui/material/InputBase';
+import SearchIcon from '@mui/icons-material/Search';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { baseURL } from '../../features/baseUrl';
+
 
 
 function Navbar() {
@@ -27,6 +35,8 @@ function Navbar() {
   const [socket, setSocket] = useState(null);
   const [notificationCount, setNotificationCount] = useState(0);
   const authToken = localStorage.getItem('authtoken');
+  const isSmallScreen = useMediaQuery('(max-width:600px)');
+
 
   useEffect(() => {
     const newSocket = new WebSocket(`ws://localhost:8000/ws/notify/?token=${authToken}&Content-Type=application/json`);
@@ -37,13 +47,13 @@ function Navbar() {
     };
 
     newSocket.onclose = () => console.log("WebSocket disconnected");
-    // return () => {
-    //   newSocket.close();
-    // };
+    return () => {
+      newSocket.close();
+    };
   // }, [socket]);
 }, []);
 
-
+         
   useEffect(() => {
     const handleSocketMessage = () => {
       setNotificationCount((prevCount) => prevCount + 1);
@@ -52,8 +62,6 @@ function Navbar() {
     if (socket) {
       socket.onmessage = handleSocketMessage;
       fetchNotifications();
-
-
       return () => {
         socket.onmessage = null;
       };
@@ -74,24 +82,14 @@ function Navbar() {
     }
   };
 
-
-
-
-
-// useEffect(() => {
-//   fetchNotifications();
-// }, [socket]); 
+useEffect(() => {
+  fetchNotifications();
+}, [socket]); 
 
   const dispatch = useDispatch()
 
   const { userInfo } = useSelector((state) => state.user)
-  // const notificationCount = useSelector((state) => state.user.notificationCount);
-  // useEffect(() => {
-  //   dispatch(fetchNot());
-  // }, [dispatch]);
 
-
-  // console.log(notificationCount,'llll');
 
   const handleLogout = async () => {
     try {
@@ -106,7 +104,7 @@ function Navbar() {
   const settings = [
     <Typography key="profile" onClick={() => navigate('/profile')}>Profile</Typography>,
     <Typography key="profile" onClick={() => navigate('/chatlist')}>Chat</Typography>,
-    <Typography key="profile" onClick={() => navigate('/userprofile')}>noti</Typography>,
+    <Typography key="profile" onClick={() => navigate('/notifications')}>Notifications</Typography>,
 
     <Typography key="logout" onClick={handleLogout}>Logout</Typography>,
     userInfo.is_user ? (
@@ -168,6 +166,14 @@ null    ) : (
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+    // You can perform search operations or pass the searchTerm to a parent component
+    console.log('Searching for:', searchTerm);
+  };
+
 
   return (
     <AppBar position="static" sx={{ backgroundColor: 'white', color: 'black', boxShadow: 'none' }}>
@@ -249,7 +255,7 @@ null    ) : (
               textDecoration: 'none',
             }}
           >
-            LOGO
+            
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'flex-center',alignItems:'center' }}>
             {pages.map((page) => (
@@ -262,44 +268,47 @@ null    ) : (
               </Button>
             ))}
           </Box>
-          <IconButton onClick={() => navigate('/userprofile')}>
+          <IconButton onClick={() => navigate('/notifications')}>
         <NotificationsActiveIcon />
         {notificationCount && (
           <sup style={{ fontWeight:"25px", color: 'red',fontSize:"15px" }}>{notificationCount}</sup>
         )}
-        {/*  */}
           </IconButton>
-          {/* {notificationCount && <p>Notification Count: {notificationCount.length}</p>} */}
+          {/* <TextField
+          label="Search"
+          variant="outlined"
+          size="small"
+          value={searchTerm}
+          onChange={handleSearch}
+          sx={{ marginRight: 2 }}
+        /> */}
 
-          <div className="searchbar">
-    <div className="searchbar-wrapper">
-        <div className="searchbar-left">
-            <div className="search-icon-wrapper">
-                <span className="search-icon searchbar-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
-                        </path>
-                    </svg>
-                </span>
-            </div>
+
+<Toolbar>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <SearchIcon style={{ marginRight: '8px' }} />
+          {!isSmallScreen && (
+            <InputBase
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+          )}
         </div>
+      </Toolbar>
 
-        <div className="searchbar-center">
-            <div className="searchbar-input-spacer"></div>
 
-            <input type="text" className="searchbar-input" maxlength="2048" name="q" autocapitalize="off" autocomplete="off" title="Search" role="combobox" placeholder="Search ... "/>
-        </div>
-
-        <div className="searchbar-right">
-
-        </div>
-    </div>
-</div>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
+              <Avatar
+                          alt={`${userInfo.username}`}
+                          src={
+                            userInfo.professionalprofile
+                              ? `${baseURL}${userInfo.professionalprofile?.image}`
+                              : `${baseURL}${userInfo.userprofile?.image}`
+                          }
+                        />              </IconButton>
             </Tooltip>
             <Menu
               sx={{ mt: '45px' }}

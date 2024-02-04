@@ -13,7 +13,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import SendIcon from '@mui/icons-material/Send';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { jwtDecode } from 'jwt-decode';
-import { List, ListItem, ListItemAvatar, ListItemText } from '@mui/material';
+import { List, ListItem, ListItemAvatar, ListItemText,Button,Input } from '@mui/material';
 import Navbar from '../Navbar/Navbar';
 
 
@@ -175,160 +175,119 @@ const PostDetailsView = () => {
   console.log(postData);
 
   return (
-    <div>
-      <Navbar/>
-      <div style={{ display: "flex" }}>
-        <Grid container spacing={2} style={{ padding: "2%" }} >
-          <Grid item xs={8} sm={6}>
-            <div>
-              <img src={`${baseURL}${postData.post}`} alt="Post" style={{ maxWidth: '100%' }} />
-
-              <div style={{ display: "flex", padding: "10px", justifyContent: "space-between", alignItems: "center" }}>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <div style={{ padding: "10px" }}>
-                    {liked ? (
-                      <IconButton onClick={() => postLike(id)}>
-                        <FavoriteIcon sx={{ fontSize: { sm: 27 }, color: 'red', cursor: 'pointer' }} />
-                      </IconButton>
-                    ) : (
-                      <IconButton onClick={() => postLike(id)}>
-                        <FavoriteBorderIcon sx={{ fontSize: { sm: 27 }, cursor: 'pointer' }} />
-                      </IconButton>
-
-                    )}
-              {postData?.likes?.length}
-
-                  </div>
-                  <div style={{ padding: "10px" }}>
-                    <IconButton
-                      aria-label="show more"
-                      onClick={handleCommentsClick}
-                    >
-                      <CommentIcon />
-                    </IconButton>
-                    {postData?.comments?.length}
-                  </div>
-                </div>
-                <FavoriteIcon onClick={handleLikesClick} />
+    
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2%' }}>
+        <Navbar />
+  
+        <Card sx={{ maxWidth: '600px', width: '100%' }}>
+          <img src={`${baseURL}${postData.post}`} alt="Post" style={{ maxWidth: '100%' }} />
+  
+          <CardContent>
+            <Typography variant="h6" component="div">
+              {postData.title}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {postData.description}
+            </Typography>
+          </CardContent>
+  
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ padding: '10px' }}>
+                <IconButton onClick={() => postLike(postData.id)}>
+                  {liked ? (
+                    <FavoriteIcon sx={{ fontSize: { sm: 27 }, color: 'red', cursor: 'pointer' }} />
+                  ) : (
+                    <FavoriteBorderIcon sx={{ fontSize: { sm: 27 }, cursor: 'pointer' }} />
+                  )}
+                </IconButton>
+                  {postData?.likes?.length}
+              </div>
+              <div style={{ padding: '10px' }}>
+                <IconButton aria-label="show more" onClick={handleCommentsClick}>
+                  <CommentIcon />
+                </IconButton>
+                {postData?.comments?.length}
               </div>
             </div>
-
-            <CardContent>
-              <Typography variant="h6" component="div">
-                {postData.title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {postData.description}
-              </Typography>
-            </CardContent>
-          </Grid>
-
-          <Grid item xs={4} sm={6}>
-          {/* <Card sx={{ maxWidth: 345 }}> */}
-
-            <div style={{ height: "100%", padding: "5%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-
-              {showComments && (
-                <Box>
-                  <Typography paragraph>
-                    <input 
-                      label="Add a comment"
-                      variant="standard"
-                      size="small"
-                      style={{ border: 'none',
-                      borderRadius: '15px',
-                      padding: '15px',
-                      backgroundColor: '#e8e8e8',
-                      boxShadow: '6px 6px 12px #ffffff, -6px -6px 12px #c5c5c5',
-                      fontSize: 'medium',
-                      fontWeight: 'bold',
-                      maxWidth: '200px',
-                  }}
-                      value={commentText}
-                      onChange={handleCommentChange}
+            <IconButton onClick={handleLikesClick}>
+              <FavoriteIcon sx={{ fontSize: { sm: 27 }, cursor: 'pointer' }} />
+            </IconButton>
+          </div>
+        </Card>
+  
+        {showComments && (
+          <Box sx={{ width: '100%', maxWidth: '600px',padding:"50px" }}>
+          <Typography paragraph>
+                          <TextField
+                            label="Add comments"
+                            variant="outlined"
+                            size="small"
+                            style={{ width: "80%" }}
+                            value={commentText}
+                            onChange={handleCommentChange}
+                          />
+                          <IconButton onClick={() => postComment(postData.id)}><SendIcon /></IconButton>
+                        </Typography>
+            <List>
+              {postData.comments &&
+                postData.comments.slice().reverse().map((comment) => (
+                  <ListItem key={comment.id} alignItems="flex-start" sx={{ marginTop: 2,  textAlign: "left",marginLeft:"25px",backgroundColor:"#f8f7f4",borderRadius:"25px" ,padding:"10px",width: "90%"}}>
+                    <ListItemAvatar>
+                    <Avatar 
+                          alt={`${comment.username}`}
+                          src={
+                            comment.professionalprofile
+                              ? `${baseURL}${comment.professionalprofile?.image}`
+                              : `${baseURL}${comment.userprofile?.image}`
+                          }
+                        />                    </ListItemAvatar>
+                    <ListItemText
+                      primary={
+                        <React.Fragment>
+                          <Typography component="span" variant="body1" color="textPrimary">
+                            <b>{comment.user.username}</b>
+                          </Typography>
+                          {` - ${comment.text}`}
+                          {renderDeleteButton(comment)}
+                        </React.Fragment>
+                      }
+                      secondary={
+                        <React.Fragment>
+                          <Typography component="span" variant="body2" color="textSecondary">
+                            {new Date(comment.created_at).toLocaleString()}
+                          </Typography>
+                        </React.Fragment>
+                      }
                     />
-                    <IconButton onClick={() => postComment(id)}><SendIcon sx={{fontSize: { sm: 32 }}} /></IconButton>
-                  </Typography>
-                  {/* {postData.comments && postData.comments.map((comment) => (
-                    <div className='comment-list' key={comment.id}>
-                      <Box sx={{ m: 'auto', display: 'flex', alignItems: 'center', gap: 2 }}>
-                        <Avatar>{comment.user.username[0].toUpperCase()}</Avatar>
-
-                        <div style={{ marginLeft: '8px', display: 'flex', flexDirection: 'column' }}>
-                          <Typography variant="body1">
-                            <b>{comment.user.username}</b> {comment.text}
-                          </Typography>
-                          <Typography variant="caption" color="textSecondary">
-                            {new Date(comment.created_at).toLocaleString()}{renderDeleteButton(comment)}
-                          </Typography>
-                        </div>
-                        <div>
-                        </div>
-                      </Box>
-                    </div>
-                  ))} */}
-                   <List>
-                   {postData.comments && postData.comments.slice().reverse().map((comment) => (      
-                      <ListItem key={comment.id} alignItems="flex-start">
+                  </ListItem>
+                ))}
+            </List>
+          </Box>
+        )}
+{showLikes && (
+  <Box sx={{ width: '100%', maxWidth: '600px' }}>
+    {postData.likes &&
+      postData.likes.map((like) => (
+        <ListItem key={like.id} alignItems="flex-start" sx={{ marginTop: 2, textAlign: "left", marginLeft: "25px", backgroundColor: "#f8f7f4", borderRadius: "25px", padding: "10px", width: "90%" }}>
           <ListItemAvatar>
-            <Avatar alt={comment.user.username} src={comment.user.photoUrl} />
+            <Avatar alt={like.user.username} />
           </ListItemAvatar>
-          <ListItemText
-            primary={
-              <React.Fragment>
-                <Typography component="span" variant="body1" color="textPrimary">
-                  <b>{comment.user.username}</b>
-                </Typography>
-                {` - ${comment.text}`}{renderDeleteButton(comment)}
-              </React.Fragment>
-            }
-            secondary={
-              <React.Fragment>
-                <Typography component="span" variant="body2" color="textSecondary">
-                {new Date(comment.created_at).toLocaleString()}
-                </Typography>
-              </React.Fragment>
-            }
-          />
+          <div alignItems="flex-start" sx={{ marginTop: 2, textAlign: "left", marginLeft: "25px", backgroundColor: "#f8f7f4", borderRadius: "25px", padding: "10px", width: "80%" }}>
+            <Typography variant="body1">
+              <b>{like.user.username}</b>
+            </Typography>
+            <Typography variant="caption" color="textSecondary">
+              {new Date(like.created_at).toLocaleString()}
+            </Typography>
+          </div>
         </ListItem>
       ))}
-    </List>
-                </Box>
-              )}
-
-
-              {showLikes && (
-                <Box>
-                  
-                  {postData.likes && postData.likes.map((like) => (
-                    <div key={like.id}>
-                      <Box sx={{ m: 'auto', display: 'flex', alignItems: 'center', gap: 2 }}>
-                        <Avatar>{like.user.username[0].toUpperCase()}</Avatar>
-                        <div style={{ marginLeft: '8px', display: 'flex', flexDirection: 'column' }}>
-                          <Typography variant="body1">
-                            <b>{like.user.username}</b>
-                          </Typography>
-                          <Typography variant="caption" color="textSecondary">
-                            {new Date(like.created_at).toLocaleString()}
-                          </Typography>
-                        </div>
-                        <div>
-                        </div>
-                      </Box>
-
-                    </div>
-                  ))}
-                </Box>
-              )}
-            </div>
-            {/* </Card> */}
-          </Grid>
-        </Grid>
-
+  </Box>
+)}
 
       </div>
-
-    </div>
+  
   )
 }
 

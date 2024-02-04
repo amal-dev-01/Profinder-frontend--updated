@@ -182,30 +182,37 @@ const PostList = () => {
           {loading && <p>Loading posts...</p>}
           {error && <p style={{ color: 'red' }}>{error}</p>}
           {!loading && !error && (
-              <div style={{display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",backgroundColor: "#f8f7f4"}}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", backgroundColor: "#f8f7f4" }}>
               <Typography variant='h3' fontFamily='cursive'>Explore</Typography>
 
-           
+
               {posts.map((post) => (
                 <Card className='cards'>
                   <div key={post.id}>
+
                     <CardHeader
                       avatar={
-
-                        <Avatar onClick={() => navigate(`userview/${post.user}`)}
-                          alt="Travis Howard" src={`${baseURL}${post.professionalprofile?.image}`} />
-
+                        <Avatar
+                          onClick={() => navigate(`userview/${post.user}`)}
+                          alt={`${post.username}`}
+                          src={
+                            post.professionalprofile
+                              ? `${baseURL}${post.professionalprofile?.image}`
+                              : `${baseURL}${post.userprofile?.image}`
+                          }
+                        />
                       }
-
                       title={post.title}
                       subheader={post.created_at}
                     />
+
+
                     <CardMedia
                       component="img"
                       image={`${baseURL}${post.post}`}
                       onClick={() => navigate(`/postlist/${post.id}`)}
                       alt="No post"
-                      style={{ width: "100%",height:"500px",objectFit:'cover'}}
+                      style={{ width: "100%", height: "500px", objectFit: 'cover' }}
                     />
                     <CardContent>
                       <Typography variant="body2" color="text.secondary">
@@ -271,11 +278,21 @@ const PostList = () => {
                         <Typography paragraph>Comments</Typography>
                         <Typography paragraph>
                           {post.comments.map((comment) => (
-                            
+
                             <div className='comment-list' key={comment.id}>
-                              <Box sx={{ m: 'auto', display: 'flex',  marginTop: 2, justifyContent: 'left', textAlign: "left",marginLeft:"25px",backgroundColor:"#f8f7f4",borderRadius:"25px" ,padding:"10px",width: "80%"}}>
-                                <Avatar>{comment.user.username[0].toUpperCase()}</Avatar>
-                                <div style={{ display: 'flex', flexDirection: 'column',padding:"10px" }}>
+                              <Box sx={{ m: 'auto', display: 'flex', marginTop: 2, justifyContent: 'left', textAlign: "left", marginLeft: "25px", backgroundColor: "#f8f7f4", borderRadius: "25px", padding: "10px", width: "80%" }}>
+                                {/* <Avatar>{comment.user.username[0].toUpperCase()}</Avatar> */}
+
+                                <Avatar
+                                onClick={() => navigate(`userview/${comment.user}`)}
+                          alt={`${comment.username}`}
+                          src={
+                            comment.professionalprofile
+                              ? `${baseURL}${comment.professionalprofile?.image}`
+                              : `${baseURL}${comment.userprofile?.image}`
+                          }
+                        />
+                                <div style={{ display: 'flex', flexDirection: 'column', padding: "10px" }}>
                                   <Typography variant="body1">
                                     <b>{comment.user.username}</b> {comment.text}
                                   </Typography>

@@ -42,6 +42,7 @@ import ChatList from './pages/ChatList';
 import User from './pages/UserProfile';
 import Post from './pages/UserPost';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import Notification from './pages/Notification/Notifications';
 // import "@fortawesome/fontawesome-free/css/all.min.css";
 function App() {
   return (
@@ -75,6 +76,8 @@ function App() {
         <Route path='/chatlist/chat/:username' element={<ChatArea />}></Route>
           <Route path='/chatlist/chating/:roomName' element={<Chat />} />
       </Route>
+
+      <Route path='/notifications' element={<Notification />} />
 
 
           <Route path='/booking/:id/:username' element={<Book />} />

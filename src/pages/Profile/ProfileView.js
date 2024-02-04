@@ -107,20 +107,21 @@ export default function ProfileView() {
                                         </div>
                                     </div>
                                 </Typography>
-                                <Box sx={{ width: '100%', padding: 5 }}>
-                                    {posts.map((post) => (
-                                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} key={post.id}>
-                                            <Grid item xs={6}>
-                                                <img
-                                                    src={`${baseURL}${post.post}`}
-                                                    alt="posted images"
-                                                    onClick={() => navigate(`/postview/${post.id}`)}
-                                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                                />
-                                            </Grid>
-                                        </Grid>
-                                    ))}
-                                </Box>
+                                <Box sx={{ width: '100%', padding: 2 }}>
+    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        {posts.map((post) => (
+            <Grid item xs={6} key={post.id}>
+                <img
+                    src={`${baseURL}${post.post}`}
+                    alt="posted images"
+                    onClick={() => navigate(`/postview/${post.id}`)}
+                    style={{ width: '100%', height: '70%', objectFit: 'cover' }}
+                />
+            </Grid>
+        ))}
+    </Grid>
+</Box>
+
                             </CardContent>
                         </CardActionArea>
                     )}

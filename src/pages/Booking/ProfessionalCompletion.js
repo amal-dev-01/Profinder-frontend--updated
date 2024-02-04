@@ -54,7 +54,7 @@ const ProfessionalCompletion = () => {
     if (authToken) {
       BookingList();
     }
-  }, [authToken]);
+  }, [authToken,handleComplete]);
 
   return (
     <div>

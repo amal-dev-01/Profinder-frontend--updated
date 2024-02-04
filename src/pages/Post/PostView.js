@@ -4,7 +4,7 @@ import axiosInstance from '../../features/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserPost } from '../../features/authSlice';
 import { userPost } from '../../features/authAction';
-import { Container, Typography, Paper, Box, Grid, Stack, Alert, IconButton, useTheme } from '@mui/material';
+import { Container, Typography, Paper, Box, Grid, Stack, Alert, IconButton, useTheme,List,ListItem,ListItemAvatar,ListItemText } from '@mui/material';
 import { baseURL } from '../../features/baseUrl';
 import CardContent from '@mui/material/CardContent';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
@@ -147,8 +147,9 @@ const PostView = () => {
         </Grid>
 
         <Grid item xs={12} sm={6}>
+          
           <div style={{ height: "100%", padding: "5%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            {showComments && (
+            {/* {showComments && (
               <Box>
                 {userPostData.comments && userPostData.comments.map((comment) => (
                   <div className='comment-list' key={comment.id}>
@@ -157,7 +158,7 @@ const PostView = () => {
 
                       <Typography variant="h6" >
                         {comment.user.username}
-                      </Typography>
+                      </Typography>z
                       <Typography variant="body2" >
                         {comment.text}
                       </Typography>
@@ -170,9 +171,41 @@ const PostView = () => {
                   </div>
                 ))}
               </Box>
-            )}
+            )} */}
+             {showComments && (
+          <Box sx={{ width: '100%', maxWidth: '600px' }}>
+            <List>
+              {userPostData.comments &&
+                userPostData.comments.slice().reverse().map((comment) => (
+                  <ListItem key={comment.id} alignItems="flex-start" sx={{ marginTop: 2,  textAlign: "left",marginLeft:"25px",backgroundColor:"#f8f7f4",borderRadius:"25px" ,padding:"10px",width: "90%"}}>
+                    <ListItemAvatar>
+                      <Avatar alt={comment.user.username} src={comment.user.xas} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={
+                        <React.Fragment>
+                          <Typography component="span" variant="body1" color="textPrimary">
+                            <b>{comment.user.username}</b>
+                          </Typography>
+                          {` - ${comment.text}`}
+                          {/* {renderDeleteButton(comment)} */}
+                        </React.Fragment>
+                      }
+                      secondary={
+                        <React.Fragment>
+                          <Typography component="span" variant="body2" color="textSecondary">
+                            {new Date(comment.created_at).toLocaleString()}
+                          </Typography>
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                ))}
+            </List>
+          </Box>
+        )}
 
-            {showLikes && (
+            {/* {showLikes && (
               <Box>
                 {userPostData.likes && userPostData.likes.map((like) => (
                   <div key={like.id}>
@@ -193,7 +226,28 @@ const PostView = () => {
                   </div>
                 ))}
               </Box>
-            )}
+            )} */}
+            {showLikes && (
+  <Box sx={{ width: '100%', maxWidth: '600px' }}>
+    {userPostData.likes &&
+      userPostData.likes.map((like) => (
+        <ListItem key={like.id} alignItems="flex-start" sx={{ marginTop: 2, textAlign: "left", marginLeft: "25px", backgroundColor: "#f8f7f4", borderRadius: "25px", padding: "10px", width: "90%" }}>
+          <ListItemAvatar>
+            <Avatar alt={like.user.username} />
+          </ListItemAvatar>
+          <div alignItems="flex-start" sx={{ marginTop: 2, textAlign: "left", marginLeft: "25px", backgroundColor: "#f8f7f4", borderRadius: "25px", padding: "10px", width: "80%" }}>
+            <Typography variant="body1">
+              <b>{like.user.username}</b>
+            </Typography>
+            <Typography variant="caption" color="textSecondary">
+              {new Date(like.created_at).toLocaleString()}
+            </Typography>
+          </div>
+        </ListItem>
+      ))}
+  </Box>
+)}
+
           </div>
         </Grid>
       </Grid>

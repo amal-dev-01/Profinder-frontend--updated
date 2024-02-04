@@ -67,8 +67,13 @@ const navigate = useNavigate()
 
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={()=>navigate(`/userconfirmation/${book.id}`)}>Confirmation</Button>
-    </CardActions>
+  {book.is_paid ? (
+    <Button size="small" onClick={() => navigate(`/userconfirmation/${book.id}`)}>
+      Confirmation
+    </Button>
+  ) : null}
+</CardActions>
+
     </Card>
     </div>
   ))

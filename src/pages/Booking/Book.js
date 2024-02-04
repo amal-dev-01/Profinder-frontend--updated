@@ -3,6 +3,8 @@ import { TextField, Button, Container, Typography } from '@mui/material';
 import axiosInstance from '../../features/axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 function Book() {
   const navigate = useNavigate();
@@ -13,6 +15,8 @@ function Book() {
     address: '',
     job: '',
   });
+
+  const [successMessage, setSuccessMessage] = useState(null);
 
 
   const handleChange = (e) => {
@@ -39,11 +43,18 @@ function Book() {
       console.log(response);
       
       if (response.status === 201) {
-        navigate('/userprofile');
+        setSuccessMessage('Booking request submitted successfully!');
+        setTimeout(() => {
+          navigate('/postlist');
+        }, 2000);
       } else {
+        setSuccessMessage(null);
+
       }
     } catch (error) {
       console.error('Error posting booking request:', error);
+      setSuccessMessage(null);
+
     }
   };
 
@@ -55,9 +66,18 @@ function Book() {
       <Typography variant="h5" align="center" gutterBottom>
         Booking Form
       </Typography>
+
+      {successMessage && (
+        <Stack spacing={2} mb={2}>
+          <Alert severity="success" onClose={() => setSuccessMessage(null)}>
+            {successMessage}
+          </Alert>
+        </Stack>
+      )}
+
       <form onSubmit={handleSubmit}>
         <TextField
-          label="Booking Date"
+          // label="Booking Date"
           type="datetime-local"
           name="booking_date"
           value={bookingData.booking_date}
