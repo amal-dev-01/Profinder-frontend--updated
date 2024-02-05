@@ -43,6 +43,7 @@ import User from './pages/UserProfile';
 import Post from './pages/UserPost';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import Notification from './pages/Notification/Notifications';
+import SearchProfessionals from './pages/Navbar/Search';
 // import "@fortawesome/fontawesome-free/css/all.min.css";
 function App() {
   return (
@@ -111,6 +112,11 @@ function App() {
           <Route path='/userselection' element={<UserSelection />} />
           <Route path='/register' element={<UserRegister />} />
           <Route path='/professionalregister' element={<ProfessionalRegister />} />
+
+          <Route path='/search' element={<SearchProfessionals />} />
+          <Route path='/search/userview/:id' element={<UserView />} />
+
+
 
 
 

@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import {TextField} from '@mui/material';
 
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -16,17 +15,16 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {  logout } from '../../features/authAction';
+import {  logout, userProfile } from '../../features/authAction';
 import './Navbar.css'
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import { useEffect } from 'react';
 import axiosInstance from '../../features/axios';
 import { useState } from 'react';
-// import Toolbar from '@mui/material/Toolbar';
-import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import useMediaQuery from '@mui/material/useMediaQuery';
+// import useMediaQuery from '@mui/material/useMediaQuery';
 import { baseURL } from '../../features/baseUrl';
+import { selectUserProfile } from '../../features/authSlice';
 
 
 
@@ -35,7 +33,7 @@ function Navbar() {
   const [socket, setSocket] = useState(null);
   const [notificationCount, setNotificationCount] = useState(0);
   const authToken = localStorage.getItem('authtoken');
-  const isSmallScreen = useMediaQuery('(max-width:600px)');
+  // const isSmallScreen = useMediaQuery('(max-width:600px)');
 
 
   useEffect(() => {
@@ -89,6 +87,14 @@ useEffect(() => {
   const dispatch = useDispatch()
 
   const { userInfo } = useSelector((state) => state.user)
+  const userProfileData = useSelector(selectUserProfile);
+
+  useEffect(() => {
+    if (authToken) {
+        dispatch(userProfile());
+    }
+}, [authToken, dispatch]);
+
 
 
   const handleLogout = async () => {
@@ -166,14 +172,27 @@ null    ) : (
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const [searchTerm, setSearchTerm] = useState('');
+  // const [searchTerm, setSearchTerm] = useState('');
 
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-    // You can perform search operations or pass the searchTerm to a parent component
-    console.log('Searching for:', searchTerm);
-  };
+  // const handleSearch = (event) => {
+  //   setSearchTerm(event.target.value);
+  //   // You can perform search operations or pass the searchTerm to a parent component
+  //   console.log('Searching for:', searchTerm);
+  // };
+  const userImageURL = userProfileData?.userprofile?.image;
+  const professionalImageURL = userProfileData?.professionalprofile?.image;
+  // const imageURL = `${baseURL}${professionalImageURL}` || `${baseURL}${userImageURL}` ||  `${baseURL}defaultImage.jpg`;
+  let imageURL =`${baseURL}defaultImage.jpg`;
 
+  if (userProfileData?.professionalprofile)
+  {
+     imageURL = `${baseURL}${professionalImageURL}`
+  }
+  else{
+    imageURL= `${baseURL}${userImageURL}`
+  }
+
+  
 
   return (
     <AppBar position="static" sx={{ backgroundColor: 'white', color: 'black', boxShadow: 'none' }}>
@@ -286,14 +305,9 @@ null    ) : (
 
 <Toolbar>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <SearchIcon style={{ marginRight: '8px' }} />
-          {!isSmallScreen && (
-            <InputBase
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={handleSearch}
-            />
-          )}
+          <IconButton onClick={()=>navigate("/search")}>
+          <SearchIcon sx={{fontSize:"36"}} />
+          </IconButton>
         </div>
       </Toolbar>
 
@@ -301,14 +315,13 @@ null    ) : (
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar
-                          alt={`${userInfo.username}`}
-                          src={
-                            userInfo.professionalprofile
-                              ? `${baseURL}${userInfo.professionalprofile?.image}`
-                              : `${baseURL}${userInfo.userprofile?.image}`
-                          }
-                        />              </IconButton>
+       
+
+<Avatar
+    alt={`${userInfo.username}`}
+    src={imageURL}
+  />
+                        </IconButton>
             </Tooltip>
             <Menu
               sx={{ mt: '45px' }}

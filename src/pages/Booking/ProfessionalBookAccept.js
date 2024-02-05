@@ -31,7 +31,7 @@ const ProfessionalBookAccept = () => {
   try {
     const response = await axiosInstance.post(
       `book/professional_bookings/${bookingId}/${action}/`,
-      {},  // Empty request body
+      {},
       {
         headers: {
           Authorization: `Bearer ${authToken}`,
@@ -42,9 +42,19 @@ const ProfessionalBookAccept = () => {
 
     if (response.status === 200) {
       console.log('Booking accepted successfully');
-      // Handle success, update state, or perform other actions
+      // const updatedResponse = await axiosInstance.get('book/professional_bookings/', {
+      //   headers: {
+      //     Authorization: `Bearer ${authToken}`,
+      //     'Content-Type': 'application/json',
+      //   },
+      // });
+  
+      // if (updatedResponse) {
+      //   console.log(updatedResponse.data);
+      //   setBooking(updatedResponse.data);
+      // }
+  
     } else {
-      // Handle other HTTP status codes if needed
       console.error('Failed to accept booking:', response.data);
     }
   } catch (error) {
@@ -83,8 +93,13 @@ const ProfessionalBookAccept = () => {
 
       </CardContent>
       <CardActions>
-      <Button size="small" onClick={() => handleAccept('confirm', book.id)}>Accept</Button>
-        <Button size="small"  onClick={()=>{handleAccept('cancel')}} >Reject</Button>
+      <Button size="small" onClick={() => handleAccept('confirm', book.id)}>
+  Accept Appointment
+</Button>
+<Button size="small" onClick={() => handleAccept('cancel', book.id)}>
+  Reject Appointment
+</Button>
+
     </CardActions>
     </Card>
     </div>
