@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Grid, Card, CardContent, CardMedia, Button, Typography, CardActionArea, Box } from '@mui/material';
-import Sidebar from '../Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { selectUserProfile } from '../../features/authSlice';
 import axiosInstance from '../../features/axios';
 import { userProfile } from '../../features/authAction';
 import { baseURL } from '../../features/baseUrl';
-import PostAddIcon from '@mui/icons-material/PostAdd';
 import Navbar from '../Navbar/Navbar';
 export default function ProfileView() {
     const navigate = useNavigate();
@@ -24,7 +22,8 @@ export default function ProfileView() {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            if (response.status == 200) {
+            console.log(response);
+            if (response.status === 200) {
 
                 setPosts(response.data)
             }
@@ -37,7 +36,7 @@ export default function ProfileView() {
     useEffect(() => {
         if (authToken) {
             dispatch(userProfile());
-            postList()
+            postList();
         }
     }, [authToken, dispatch]);
 
@@ -57,7 +56,7 @@ export default function ProfileView() {
                                     height: '250px',
                                     backgroundSize: '100% 100%',
                                     backgroundPosition: 'center',
-                                    backgroundSize: 'cover',
+                                    // backgroundSize: 'cover',
                                     padding: "10px",
 
                                 }}>
@@ -136,7 +135,7 @@ export default function ProfileView() {
                                     height: '250px',
                                     backgroundSize: '100% 100%',
                                     backgroundPosition: 'center',
-                                    backgroundSize: 'cover',
+                                    // backgroundSize: 'cover',
                                     padding: "10px",
 
                                 }}>

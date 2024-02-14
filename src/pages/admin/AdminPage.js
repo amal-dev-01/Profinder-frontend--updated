@@ -55,6 +55,10 @@ const AdminPage = () => {
   return (
     <div>
       <Sidebar />
+      {/* <div style={{display:'flex',justifyContent:'center',alignItems:'cener'}}> 
+
+<Outlet/>
+</div> */}
 
       <Grid container spacing={2}>
         {/* Left Column */}
@@ -150,10 +154,7 @@ const AdminPage = () => {
           />
         </Grid>
       </Grid>
-      <div style={{display:'flex',justifyContent:'center',alignItems:'cener'}}> 
 
-      <Outlet/>
-      </div>
     </div>
   );
 };

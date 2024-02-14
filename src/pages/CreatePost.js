@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import axiosInstance from '../features/axios';
-import { Container, Typography, TextField, TextareaAutosize, Button, Grid } from '@mui/material';
+import { Container, Typography, TextField, TextareaAutosize, Button, Grid ,Alert,Stack} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 
 const CreatePost = () => {
   const authToken = localStorage.getItem('authtoken');
+  const [successMessage, setSuccessMessage] = useState(null);
+  const navigate=useNavigate()
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -41,10 +45,15 @@ const CreatePost = () => {
         },
       });
 
-      console.log(response);
+      console.log(response);  
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         console.log('Post created:', response.data);
+        setSuccessMessage('Post uploaded successfully!');
+        setTimeout(() => {
+          navigate('/profile');
+        }, 2000);
+
       }
     } catch (error) {
       console.error('Error creating post:', error);
@@ -57,6 +66,14 @@ const CreatePost = () => {
       <Typography variant="h4" align="center" gutterBottom>
         Create Post
       </Typography>
+      
+      {successMessage && (
+        <Stack spacing={2} mb={2}>
+          <Alert severity="success" onClose={() => setSuccessMessage(null)}>
+            {successMessage}
+          </Alert>
+        </Stack>
+      )}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>

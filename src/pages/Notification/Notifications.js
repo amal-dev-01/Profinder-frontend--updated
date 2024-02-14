@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { List, ListItem, Typography, createTheme, ThemeProvider ,Card,CardContent} from '@mui/material';
-import { makeStyles, useTheme } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
+import { useSelector } from 'react-redux';
 
-const theme = createTheme(); // Creating a theme instance
+const theme = createTheme(); 
 
 const useStyles = makeStyles(() => ({
   notificationCard: {
@@ -27,6 +28,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Notification = () => {
+  const { userInfo } = useSelector((state) => state.user)
+
 
   const authToken = localStorage.getItem('authtoken');
   const navigate = useNavigate()
@@ -85,7 +88,15 @@ const Notification = () => {
     }, []); 
 
     const handleNotificationClick = ()=>{
-      navigate('/probookingaccept')
+      if(userInfo.is_user){
+        navigate('/userbooking')
+
+      }
+      else{
+
+        navigate('/probookingaccept')
+      }
+        
     }
 
     return (

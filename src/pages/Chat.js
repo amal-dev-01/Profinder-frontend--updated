@@ -18,12 +18,15 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 function Chat() {
   const { roomName } = useParams();
-  const WS_URL = `ws://localhost:8000/ws/chat/${roomName}/`;
+  const authToken = localStorage.getItem('authtoken');
+  const WS_URL = `ws://localhost:8000/ws/chat/${roomName}/?token=${authToken  }`;
   const CHAT_HISTORY_ENDPOINT = `/chat/chat_history/${roomName}/`;
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
+  // const {username} = useParams()
+  const user = authToken ? jwtDecode(authToken).user_id : null;
 
 
   const [socket, setSocket] = useState(null);
@@ -106,7 +109,9 @@ function Chat() {
       const data = {
         message: message,
         username: username,
+        user:user,
       };
+      console.log(data);
       socket.send(JSON.stringify(data));
       setMessage("");
     }
@@ -114,12 +119,13 @@ function Chat() {
 
   const handleDelete = async (messageId) => {
     const shouldDelete = window.confirm("Are you sure you want to delete this message?");
-
+    
     if (shouldDelete) {
       try {
         await axiosInstance.delete(`/chat/delete_message/${messageId}/`);
         fetchChatHistory()
       } catch (error) {
+        fetchChatHistory()
         console.error('Error deleting message:', error);
       }
     }

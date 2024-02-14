@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../../features/axios';
 import { getUserProfile } from '../../features/authAction';
 import { baseURL } from '../../features/baseUrl';
+import Sidebar from '../Sidebar';
 
 export default function Profileview() {
 
@@ -77,7 +78,7 @@ export default function Profileview() {
 
     return (
         <div>
-            {/* <Sidebar></Sidebar> */}
+           <Sidebar/>
             <div style={{ display: "flex", justifyContent: "center", marginTop: "2%" }}>
                 <Card sx={{ maxWidth: 900 }}>
 

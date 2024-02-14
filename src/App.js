@@ -57,7 +57,7 @@ function App() {
           <Route path='/checkout' element={<CheckOut />} />
           <Route path='/success' element={<PaymentSucess />} />
 
-          <Route path='/admin' element={<AdminPage/>} >
+          <Route path='/admin' element={<AdminPage/>} ></Route>
           <Route path='/admin/userlist' element={<ListUser/>} />
           <Route path='/admin/professionallist' element={<ListProfessionals/>} />
           <Route path='/admin/profile/:id' element={<Profileview/>} />
@@ -65,7 +65,7 @@ function App() {
           <Route path='/admin/booking/details/:id' element={<BookDetails/>} />
           <Route path='/admin/booking/filter' element={<FilterBooking/>} />
           <Route path='/admin/booking/payment' element={<Payment/>} />
-          </Route>
+          {/* </Route> */}
 
 
           {/* <Route path="start" element={<Conversations />} /> */}

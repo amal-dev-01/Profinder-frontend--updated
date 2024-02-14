@@ -6,6 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Card, CardContent, Typography,CardActions,Button } from '@mui/material';
+import Sidebar from '../Sidebar';
 
 const FilterBooking = () => {
     const authToken = localStorage.getItem('authtoken')
@@ -52,6 +53,7 @@ const FilterBooking = () => {
 
   return (
     <div style={{width:'60%'}}>
+      <Sidebar/>
 
         <h2>Bookings</h2>
 

@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import axiosInstance from '../../features/axios';
 import { Button, Card } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import Sidebar from '../Sidebar';
 
 const BookList = () => {
     const [booking,setBooking]=useState([])
@@ -34,7 +35,8 @@ const BookList = () => {
     }, [authToken])
 
   return (
-    <div style={{width:'80%'}}>
+    <div style={{width:'80%',display:'flex',justifyContent:'center',padding:"100px"}}>
+        <Sidebar/>
 
       <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                 {booking.map((book) => (

@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import axiosInstance from '../../features/axios';
 import { Button, Card } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import Sidebar from '../Sidebar';
 
 
 const ListProfessionals = () => {
@@ -36,6 +37,7 @@ const ListProfessionals = () => {
 
     return (
         <div style={{width:'80%'}}>
+            <Sidebar/>
 
             <List sx={{ width: '100%', bgcolor: 'background.paper', padding:'10px' }}>
                 {professional.map((user, index) => (

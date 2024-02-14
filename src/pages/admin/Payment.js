@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axiosInstance from '../../features/axios'
 import { Card,Typography } from '@mui/material'
+import Sidebar from '../Sidebar'
 
 const Payment = () => {
     const authToken = localStorage.getItem('authtoken')   
@@ -26,6 +27,7 @@ const Payment = () => {
 
   return (
     <div style={{width:'80%'}}>
+      <Sidebar/>
               <ul>
 
         {pay.map((item, index) => (

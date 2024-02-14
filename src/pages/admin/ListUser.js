@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import axiosInstance from '../../features/axios';
 import { Button, Card, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import Sidebar from '../Sidebar';
 
 const ListUser = () => {
   const [users, setUsers] = useState([]);
@@ -34,6 +35,8 @@ const ListUser = () => {
 
   return (
     <div style={{width:'80%'}}>
+            <Sidebar />
+
 {/* <Grid container spacing={1}> */}
   <Grid item xs={12} md={6} lg={4}>
     <List sx={{ bgcolor: 'background.paper', padding: '10px' }}>

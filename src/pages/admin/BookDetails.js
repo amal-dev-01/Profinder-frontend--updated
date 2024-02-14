@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axiosInstance from '../../features/axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Card, CardContent, Typography,CardActions,Button } from '@mui/material';
+import Sidebar from '../Sidebar';
 
 export const BookDetails = () => {
 
@@ -32,7 +33,8 @@ export const BookDetails = () => {
 
 
   return (
-     <div  style={{width:'80%'}}>
+     <div  style={{width:'80%',display:'flex',justifyContent:'center'}}>
+      <Sidebar/>
   {
       <div key={booking.id}>
         <Card style={{width:'100%'}} >

@@ -93,6 +93,7 @@ export const logout = createAsyncThunk(
         };
   
         const response = await axiosInstance.get(`post/post/${postId}/update/`, config); 
+        console.log(response);
    
         return response.data;
       } catch (error) {

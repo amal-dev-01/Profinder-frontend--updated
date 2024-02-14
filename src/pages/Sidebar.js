@@ -124,6 +124,8 @@ export default function Sidebar() {
           </IconButton>
         </DrawerHeader>
         <Divider />
+<Button onClick={()=>navigate('/admin')}>Home</Button>  
+
 <Button onClick={()=>navigate('/admin/userlist')}>Users</Button>  
 <Button onClick={()=>navigate('/admin/professionallist')}>Professional</Button>     
 <Button onClick={()=>navigate('/admin/bookings')}>Booking</Button> 
